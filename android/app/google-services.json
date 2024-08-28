@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "165174956197",
+    "project_id": "hospy-664e8",
+    "storage_bucket": "hospy-664e8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:165174956197:android:be8f44f691d7e1b74bfd4c",
+        "android_client_info": {
+          "package_name": "com.example.hospy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJYA3HSKHoF7enke9Sys7qiD0At43LX1M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
