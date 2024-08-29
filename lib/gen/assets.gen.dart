@@ -26,11 +26,14 @@ class $AssetsSvgGen {
   /// File path: assets/svg/blured_ball.svg
   String get bluredBall => 'assets/svg/blured_ball.svg';
 
+  /// File path: assets/svg/enter_otp.svg
+  String get enterOtp => 'assets/svg/enter_otp.svg';
+
   /// File path: assets/svg/phone_auth.svg
   String get phoneAuth => 'assets/svg/phone_auth.svg';
 
   /// List of all assets
-  List<String> get values => [bluredBall, phoneAuth];
+  List<String> get values => [bluredBall, enterOtp, phoneAuth];
 }
 
 class Assets {

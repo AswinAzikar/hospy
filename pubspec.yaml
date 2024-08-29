@@ -18,6 +18,8 @@ dependencies:
   gap: ^3.0.1
   logger: ^2.4.0
   firebase_auth: ^5.2.0
+  intl_phone_number_field: ^0.2.0
+  flutter_otp_text_field: ^1.2.0
 
 dev_dependencies:
   flutter_test:

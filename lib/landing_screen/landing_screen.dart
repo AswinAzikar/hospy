@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hospy/Authentication%20/Otp_auth/phone_auth.dart';
+import 'package:hospy/Authentication%20/Phone_Otp_auth/phone_auth.dart';
 import 'package:hospy/constants/color_const.dart';
 import 'package:hospy/gen/assets.gen.dart';
 import 'package:hospy/widgets/buttons.dart';
