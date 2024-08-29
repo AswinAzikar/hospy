@@ -20,10 +20,24 @@ class $AssetsPngGen {
   List<AssetGenImage> get values => [landingImagePng];
 }
 
+class $AssetsSvgGen {
+  const $AssetsSvgGen();
+
+  /// File path: assets/svg/blured_ball.svg
+  String get bluredBall => 'assets/svg/blured_ball.svg';
+
+  /// File path: assets/svg/phone_auth.svg
+  String get phoneAuth => 'assets/svg/phone_auth.svg';
+
+  /// List of all assets
+  List<String> get values => [bluredBall, phoneAuth];
+}
+
 class Assets {
   Assets._();
 
   static const $AssetsPngGen png = $AssetsPngGen();
+  static const $AssetsSvgGen svg = $AssetsSvgGen();
 }
 
 class AssetGenImage {

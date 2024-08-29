@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hospy/Authentication%20/Otp_auth/phone_auth.dart';
 import 'package:hospy/constants/color_const.dart';
 import 'package:hospy/gen/assets.gen.dart';
 import 'package:hospy/widgets/buttons.dart';
@@ -37,7 +38,12 @@ class _LandingScreenState extends State<LandingScreen> {
                   Padding(
                     padding: const EdgeInsets.all(3),
                     child: LoadingButtonV1(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const PhoneAuth()));
+                      },
                       text: "Get Started",
                     ),
                   ),
