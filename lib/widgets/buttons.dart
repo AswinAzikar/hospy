@@ -41,36 +41,43 @@ class _LoadingButtonV1State extends State<LoadingButtonV1>
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: ScaleTransition(
-        scale: _animation,
-        child: InkResponse(
-          splashColor: Colors.blue,
-          borderRadius:
-              BorderRadius.circular(10), // Match the button border radius
-          onTap: _handleTap,
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: primaryGradience,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(20), // Adjust padding if needed
-              child: Center(
-                child: Text(
-                  widget.text,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15,
+    return Row(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: ScaleTransition(
+              scale: _animation,
+              child: InkResponse(
+                splashColor: primaryColor1,
+                borderRadius:
+                    BorderRadius.circular(10), // Match the button border radius
+                onTap: _handleTap,
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: primaryGradience,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.all(20), // Adjust padding if needed
+                    child: Center(
+                      child: Text(
+                        widget.text,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 

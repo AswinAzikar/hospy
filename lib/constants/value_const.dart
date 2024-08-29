@@ -1,4 +1,5 @@
 import 'package:gap/gap.dart';
+import 'package:logger/logger.dart';
 
 // Extra Small Gaps
 const gapExtraSmall = Gap(4);
@@ -29,3 +30,5 @@ const gapVII = Gap(72); // Seven times large
 const gapVIII = Gap(80); // Eight times large
 const gapIX = Gap(96); // Nine times large
 const gapX = Gap(104);  // Ten times large
+
+var logger =  Logger();
