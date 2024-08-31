@@ -3,14 +3,14 @@ import 'package:hospy/constants/color_const.dart';
 import 'package:hospy/home_screen/home_screen.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
-class BottomNavigationBar extends StatefulWidget {
-  const BottomNavigationBar({super.key});
+class CustomBottomNavigationBar extends StatefulWidget {
+  const CustomBottomNavigationBar({super.key});
 
   @override
-  State<BottomNavigationBar> createState() => _BottomNavigationBarState();
+  State<CustomBottomNavigationBar> createState() => _CustomBottomNavigationBarState();
 }
 
-class _BottomNavigationBarState extends State<BottomNavigationBar> {
+class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   int selectedIndex = 0;
   final PageController _pageController = PageController();
   @override
@@ -27,7 +27,7 @@ class _BottomNavigationBarState extends State<BottomNavigationBar> {
           HomeScreen(),
         ],
       ),
-      bottomNavigationBar: StylishBottomBar(
+     bottomNavigationBar: StylishBottomBar(
         items: [
           BottomBarItem(
               icon: const Icon(Icons.home_outlined), title: const Text('Home'))

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:hospy/Authentication%20/Phone_Otp_auth/widgets/enter_otp_svg.dart';
 import 'package:hospy/Authentication%20/Phone_Otp_auth/widgets/input_number_svg.dart';
+import 'package:hospy/bottom_navigation/bottom_navbar.dart';
 import 'package:hospy/constants/color_const.dart';
 import 'package:hospy/constants/value_const.dart';
 import 'package:hospy/home_screen/home_screen.dart';
@@ -116,8 +117,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      const HomeScreen()), 
+                  builder: (context) => const CustomBottomNavigationBar()),
             );
           } else {
             // User doesn't exist, navigate to signup page
