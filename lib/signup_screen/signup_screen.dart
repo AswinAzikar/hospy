@@ -12,7 +12,7 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
-    String WelcomeText = "Welcome \n to Hospy \n -'We care'";
+    String WelcomeText = "Welcome ! Let's get you started.";
     TextTheme textStyleTheme = Theme.of(context).textTheme;
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -31,8 +31,11 @@ class _SignupScreenState extends State<SignupScreen> {
                 TypewriterAnimatedText(WelcomeText,
                     textStyle: textStyleTheme.displayLarge!.copyWith(
                         fontWeight: FontWeight.bold,
-                        fontSize: screenWidth * 0.1),
-                    speed: Durations.long4),
+                        fontSize: screenWidth * 0.15,
+                        color: primaryColor2),
+                    speed: Durations.medium2,
+                    cursor: '_',
+                    curve: Curves.easeInOutCubic),
               ])
             ],
           ),

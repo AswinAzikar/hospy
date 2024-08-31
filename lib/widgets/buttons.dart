@@ -49,14 +49,14 @@ class _LoadingButtonV1State extends State<LoadingButtonV1>
             child: ScaleTransition(
               scale: _animation,
               child: InkResponse(
-                splashColor: primaryColor1,
+                splashColor: const Color(0xffef7878),
                 borderRadius:
                     BorderRadius.circular(10), // Match the button border radius
                 onTap: _handleTap,
                 child: Container(
                   decoration: BoxDecoration(
-                    gradient: primaryGradience,
-                    borderRadius: BorderRadius.circular(10),
+                    color: buttonColor,
+                    borderRadius: BorderRadius.circular(30),
                   ),
                   child: Padding(
                     padding:

@@ -31,8 +31,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
 
   Future<void> saveToken(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('user_token',
-        token); //shared  preferences storing token to key user_token
+    await prefs.setString('user_token', token);
     logger.w("Token saved to  shared preferences");
   }
 
@@ -41,7 +40,6 @@ class _PhoneAuthState extends State<PhoneAuth> {
     return phoneRegex.hasMatch(phoneNumber);
   }
 
-//send otp  function
   void _sendOTP() async {
     String phoneNumber = _phoneController.text;
     String countryCode = _countryController.text;
@@ -85,7 +83,6 @@ class _PhoneAuthState extends State<PhoneAuth> {
     }
   }
 
-//verify otp and save token
   void _verifyOTP(String smsCode) async {
     if (_verificationId != null) {
       try {
@@ -105,22 +102,18 @@ class _PhoneAuthState extends State<PhoneAuth> {
             await saveToken(token);
           }
 
-          // Get the instance of Firestore
           FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-          // Get the document snapshot
           DocumentSnapshot<Map<String, dynamic>> userDoc =
               await firestore.collection('users').doc(user.uid).get();
 
           if (userDoc.exists) {
-            // User exists, navigate to CustomBottomNavigationBar
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                   builder: (context) => const CustomBottomNavigationBar()),
             );
           } else {
-            // User doesn't exist, navigate to signup page
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const SignupScreen()),
@@ -132,11 +125,9 @@ class _PhoneAuthState extends State<PhoneAuth> {
           );
         }
       } catch (e) {
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   SnackBar(content: Text('Error during OTP verification: $e')),
-
-        
-        // );
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error during OTP verification: $e')),
+        );
         logger.f("Error is $e");
       }
     } else {
@@ -149,9 +140,12 @@ class _PhoneAuthState extends State<PhoneAuth> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-
+    double screenWidth = MediaQuery.of(context).size.width;
+    TextTheme textStyleTheme = Theme.of(context).textTheme;
     return Scaffold(
+      // backgroundColor: primaryColor1,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         title: Text(
           _isOTPSend ? 'Otp Verification' : 'Login with Phone number',
           style: const TextStyle(color: Colors.black54),
@@ -178,11 +172,47 @@ class _PhoneAuthState extends State<PhoneAuth> {
                   gapMedium,
                   _isOTPSend
                       ? OtpTextField(
+                          fillColor: primaryColor1,
+                          filled: true,
+                          enabledBorderColor: Colors.black,
+                          obscureText: true,
+                          textStyle:
+                              textStyleTheme.bodyLarge!.copyWith(fontSize: 15),
+                          showFieldAsBox: true,
+                          decoration: InputDecoration(
+                            enabled: true,
+                            filled: true,
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 0, horizontal: 10),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: const BorderSide(
+                                color: Colors.black,
+                                width: 2.0,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: const BorderSide(
+                                color: Colors.black,
+                                width: 2.0,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              borderSide: const BorderSide(
+                                color: Colors.black,
+                                width: 2.0,
+                              ),
+                            ),
+                          ),
                           borderWidth: 2,
                           numberOfFields: 6,
                           borderColor: Colors.black,
-                          focusedBorderColor: Colors.blue,
+                          focusedBorderColor: Colors.red,
                           showCursor: true,
+                          fieldWidth: screenWidth * .0999,
+                          fieldHeight: screenWidth * .0999,
                           onCodeChanged: (String code) {},
                           onSubmit: (String code) {
                             _verifyOTP(code);
