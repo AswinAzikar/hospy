@@ -1,10 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:hospy/Authentication%20/Phone_Otp_auth/widgets/enter_otp_svg.dart';
 import 'package:hospy/Authentication%20/Phone_Otp_auth/widgets/input_number_svg.dart';
+import 'package:hospy/constants/color_const.dart';
 import 'package:hospy/constants/value_const.dart';
+import 'package:hospy/home_screen/home_screen.dart';
+import 'package:hospy/signup_screen/signup_screen.dart';
 import 'package:hospy/widgets/buttons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'widgets/input_phone_number.dart';
 
 class PhoneAuth extends StatefulWidget {
@@ -23,29 +28,36 @@ class _PhoneAuthState extends State<PhoneAuth> {
   final TextEditingController _otpController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  Future<void> saveToken(String token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('user_token',
+        token); //shared  preferences storing token to key user_token
+    logger.w("Token saved to  shared preferences");
+  }
+
   bool _isValidPhoneNumber(String phoneNumber) {
     final RegExp phoneRegex = RegExp(r'^[6-9]\d{9}$');
     return phoneRegex.hasMatch(phoneNumber);
   }
 
+//send otp  function
   void _sendOTP() async {
     String phoneNumber = _phoneController.text;
     String countryCode = _countryController.text;
 
     if (_isValidPhoneNumber(phoneNumber)) {
       setState(() {
-        _isLoading = true; 
+        _isLoading = true;
       });
 
       await _auth.verifyPhoneNumber(
         phoneNumber: '$countryCode$phoneNumber',
         verificationCompleted: (PhoneAuthCredential credential) async {
           await _auth.signInWithCredential(credential);
-          
         },
         verificationFailed: (FirebaseAuthException e) {
           setState(() {
-            _isLoading = false; 
+            _isLoading = false;
           });
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Verification failed: ${e.message}')),
@@ -55,13 +67,13 @@ class _PhoneAuthState extends State<PhoneAuth> {
           setState(() {
             _isOTPSend = true;
             _verificationId = verificationId;
-            _isLoading = false; 
+            _isLoading = false;
           });
         },
         codeAutoRetrievalTimeout: (String verificationId) {
           setState(() {
             _verificationId = verificationId;
-            _isLoading = false; 
+            _isLoading = false;
           });
         },
       );
@@ -72,6 +84,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
     }
   }
 
+//verify otp and save token
   void _verifyOTP(String smsCode) async {
     if (_verificationId != null) {
       try {
@@ -83,11 +96,36 @@ class _PhoneAuthState extends State<PhoneAuth> {
         UserCredential userCredential =
             await _auth.signInWithCredential(credential);
         User? user = userCredential.user;
+
         if (user != null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Text('Successfully signed in: ${user.phoneNumber}')),
-          );
+          String? token = await user.getIdToken();
+          if (token != null) {
+            logger.w("The token is $token");
+            await saveToken(token);
+          }
+
+          // Get the instance of Firestore
+          FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+          // Get the document snapshot
+          DocumentSnapshot<Map<String, dynamic>> userDoc =
+              await firestore.collection('users').doc(user.uid).get();
+
+          if (userDoc.exists) {
+            // User exists, navigate to home page
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      const HomeScreen()), 
+            );
+          } else {
+            // User doesn't exist, navigate to signup page
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const SignupScreen()),
+            );
+          }
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Sign-in failed')),
@@ -111,7 +149,11 @@ class _PhoneAuthState extends State<PhoneAuth> {
 
     return Scaffold(
       appBar: AppBar(
-          title: Text(_isOTPSend ? 'Verify OTP' : 'Phone Authentication')),
+        title: Text(
+          _isOTPSend ? 'Otp Verification' : 'Login with Phone number',
+          style: const TextStyle(color: Colors.black54),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
         child: Column(
