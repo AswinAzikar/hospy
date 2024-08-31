@@ -10,6 +10,9 @@
 class FontFamily {
   FontFamily._();
 
-  /// Font family: Lexend
-  static const String lexend = 'Lexend';
+  /// Font family: SFProDisplay
+  static const String sFProDisplay = 'SFProDisplay';
+
+  /// Font family: SFProText
+  static const String sFProText = 'SFProText';
 }
