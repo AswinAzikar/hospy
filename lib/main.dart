@@ -1,10 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hospy/landing_screen/landing_screen.dart';
+import 'package:hospy/signup_screen/signup_screen.dart';
 
 void main() async {
-   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -22,24 +23,24 @@ class MyApp extends StatelessWidget {
         textTheme: const TextTheme(
           displayLarge: TextStyle(
             fontFamily: 'Lexend',
-            fontWeight: FontWeight.w900, // Black
+            //  fontWeight: FontWeight.w900, // Black
             fontSize: 96,
             letterSpacing: -1.5,
           ),
           displayMedium: TextStyle(
             fontFamily: 'Lexend',
-            fontWeight: FontWeight.w800, // ExtraBold
+            //  fontWeight: FontWeight.w800, // ExtraBold
             fontSize: 60,
             letterSpacing: -0.5,
           ),
           displaySmall: TextStyle(
             fontFamily: 'Lexend',
-            fontWeight: FontWeight.w700, // Bold
+            // fontWeight: FontWeight.w700, // Bold
             fontSize: 48,
           ),
           headlineMedium: TextStyle(
             fontFamily: 'Lexend',
-            fontWeight: FontWeight.w600, // SemiBold
+            // fontWeight: FontWeight.w600, // SemiBold
             fontSize: 34,
             letterSpacing: 0.25,
           ),
@@ -76,7 +77,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const LandingScreen(),
+      home: const SignupScreen(),
     );
   }
 }

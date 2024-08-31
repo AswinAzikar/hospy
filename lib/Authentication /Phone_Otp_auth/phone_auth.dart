@@ -113,7 +113,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
               await firestore.collection('users').doc(user.uid).get();
 
           if (userDoc.exists) {
-            // User exists, navigate to home page
+            // User exists, navigate to CustomBottomNavigationBar
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -132,9 +132,12 @@ class _PhoneAuthState extends State<PhoneAuth> {
           );
         }
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error during OTP verification: $e')),
-        );
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(content: Text('Error during OTP verification: $e')),
+
+        
+        // );
+        logger.f("Error is $e");
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

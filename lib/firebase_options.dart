@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'hospy-664e8.appspot.com',
     iosBundleId: 'com.example.hospy',
   );
+
 }
