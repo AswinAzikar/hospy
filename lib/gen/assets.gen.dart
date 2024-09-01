@@ -23,20 +23,24 @@ class $AssetsPngGen {
 class $AssetsSvgGen {
   const $AssetsSvgGen();
 
-  /// File path: assets/svg/blured_ball.svg
-  String get bluredBall => 'assets/svg/blured_ball.svg';
-
   /// File path: assets/svg/care.svg
   String get care => 'assets/svg/care.svg';
 
   /// File path: assets/svg/enter_otp.svg
   String get enterOtp => 'assets/svg/enter_otp.svg';
 
+  /// File path: assets/svg/get_started.svg
+  String get getStarted => 'assets/svg/get_started.svg';
+
   /// File path: assets/svg/phone_auth.svg
   String get phoneAuth => 'assets/svg/phone_auth.svg';
 
+  /// File path: assets/svg/tell_us_more.svg
+  String get tellUsMore => 'assets/svg/tell_us_more.svg';
+
   /// List of all assets
-  List<String> get values => [bluredBall, care, enterOtp, phoneAuth];
+  List<String> get values =>
+      [care, enterOtp, getStarted, phoneAuth, tellUsMore];
 }
 
 class Assets {

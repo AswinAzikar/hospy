@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:hospy/greeting_screen/GreetingScreen.dart';
 import 'package:hospy/landing_screen/landing_screen.dart';
-import 'package:hospy/signup_screen/signup_screen.dart';
 import 'package:hospy/theme/theme.dart';
 
 void main() async {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: fontTheme,
-      home: const LandingScreen(),
+      home: const GreetingScreen(),
     );
   }
 }

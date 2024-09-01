@@ -1,44 +1,76 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hospy/constants/color_const.dart';
+import 'package:hospy/gen/assets.gen.dart';
+import 'package:hospy/signup_screen/widgets/detail_widget.dart';
+import 'package:hospy/widgets/buttons.dart';
+import 'package:hospy/widgets/custom_text_field.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
+  bool _isScrolled = false;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(const Duration(milliseconds: 100), () {
+      setState(() {
+        _isScrolled = true;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    String WelcomeText = "Welcome ! Let's get you started.";
-    TextTheme textStyleTheme = Theme.of(context).textTheme;
-    double screenWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-        backgroundColor: bgColor1,
-        body: SafeArea(
-            child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              AnimatedTextKit(animatedTexts: [
-                // ColorizeAnimatedText("Welcome",
-                //     textStyle: textStyleTheme.displayLarge!
-                //         .copyWith(fontSize: screenWidth * 0.2),
-                //     colors: [primaryColor1, primaryColor2])
+    final screenHeight = MediaQuery.of(context).size.height;
+    final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
 
-                TypewriterAnimatedText(WelcomeText,
-                    textStyle: textStyleTheme.displayLarge!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: screenWidth * 0.15,
-                        color: primaryColor2),
-                    speed: Durations.medium2,
-                    cursor: '_',
-                    curve: Curves.easeInOutCubic),
-              ])
-            ],
+    return Scaffold(
+      backgroundColor: primaryColor1,
+      body: Stack(
+        children: [
+          SvgPicture.asset(Assets.svg.tellUsMore),
+          SafeArea(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 500),
+                height: _isScrolled ? screenHeight * 0.7 : 0,
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(30),
+                  ),
+                ),
+                child: SingleChildScrollView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  child: Column(
+                    children: [
+                      DetailWidget(
+                          nameController: _nameController,
+                          ageController: _ageController,
+                          emailController: _emailController,
+                          addressController: _addressController),
+
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ),
-        )));
+        ],
+      ),
+    );
   }
 }

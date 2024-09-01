@@ -8,7 +8,7 @@ import 'package:hospy/bottom_navigation/bottom_navbar.dart';
 import 'package:hospy/constants/color_const.dart';
 import 'package:hospy/constants/value_const.dart';
 import 'package:hospy/home_screen/home_screen.dart';
-import 'package:hospy/signup_screen/signup_screen.dart';
+import 'package:hospy/greeting_screen/GreetingScreen.dart';
 import 'package:hospy/widgets/buttons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'widgets/input_phone_number.dart';
@@ -116,7 +116,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
           } else {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const SignupScreen()),
+              MaterialPageRoute(builder: (context) => const GreetingScreen()),
             );
           }
         } else {
@@ -125,9 +125,9 @@ class _PhoneAuthState extends State<PhoneAuth> {
           );
         }
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error during OTP verification: $e')),
-        );
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(content: Text('Error during OTP verification: $e')),
+        // );
         logger.f("Error is $e");
       }
     } else {

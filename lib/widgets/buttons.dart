@@ -4,11 +4,15 @@ import 'package:hospy/constants/color_const.dart';
 class LoadingButtonV1 extends StatefulWidget {
   final VoidCallback onPressed;
   final String text;
+  final Icon? icon;
+  final bool iconLeft;
 
   const LoadingButtonV1({
     super.key,
     required this.onPressed,
     required this.text,
+    this.icon,
+    this.iconLeft = true,
   });
 
   @override
@@ -41,43 +45,53 @@ class _LoadingButtonV1State extends State<LoadingButtonV1>
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: ScaleTransition(
-              scale: _animation,
-              child: InkResponse(
-                splashColor: const Color(0xffef7878),
-                borderRadius:
-                    BorderRadius.circular(10), // Match the button border radius
-                onTap: _handleTap,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: buttonColor,
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.all(20), // Adjust padding if needed
-                    child: Center(
+    final hasIcon = widget.icon != null;
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: ScaleTransition(
+        scale: _animation,
+        child: InkResponse(
+          splashColor: const Color(0xffef7878),
+          borderRadius: BorderRadius.circular(10),
+          onTap: _handleTap,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return Container(
+                decoration: BoxDecoration(
+                  color: buttonColor,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                height:
+                    screenHeight * 0.06, 
+                child: Stack(
+                  children: [
+                    Center(
                       child: Text(
                         widget.text,
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
-                          fontSize: 15,
+                          fontSize: 16,
                         ),
                       ),
                     ),
-                  ),
+                    if (widget.icon != null)
+                      Positioned(
+                        top: 0,
+                        bottom: 0,
+                        left: widget.iconLeft ? 10 : null,
+                        right: widget.iconLeft ? null : 10,
+                        child: widget.icon!,
+                      ),
+                  ],
                 ),
-              ),
-            ),
+              );
+            },
           ),
         ),
-      ],
+      ),
     );
   }
 
