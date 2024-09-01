@@ -39,7 +39,7 @@ class DetailWidget extends StatelessWidget {
           fieldController: _emailController,
         ),
         CustomTextField(
-            label: "Address",
+            label: "Address :",
             keyboardType: TextInputType.multiline,
             fieldController: _addressController),
       ],

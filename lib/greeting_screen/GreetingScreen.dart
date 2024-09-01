@@ -59,7 +59,7 @@ class _GreetingScreenState extends State<GreetingScreen>
 
   @override
   Widget build(BuildContext context) {
-    String welcomeText = "Welcome ! Let's get you started.";
+    String welcomeText = "Welcome ! \n Let's get\n you started.";
     TextTheme textStyleTheme = Theme.of(context).textTheme;
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
@@ -81,25 +81,30 @@ class _GreetingScreenState extends State<GreetingScreen>
               SlideTransition(
                 position: _slideAnimation,
                 child: SizedBox(
-                  child: SvgPicture.asset(Assets.svg.getStarted),
+                  child: SvgPicture.asset(
+                    Assets.svg.getStarted,
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ),
               if (_isButtonVisible)
-                LoadingButtonV1(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                          
-                            child: const SignUpScreen(),
-                            type: PageTransitionType.rightToLeft));
-                  },
-                  text: "Continue",
-                  icon: const Icon(
-                    Icons.arrow_forward,
-                    color: Colors.white,
+                Container(
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, screenHeight * 0.077),
+                  child: LoadingButtonV1(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              child: const SignUpScreen(),
+                              type: PageTransitionType.rightToLeft));
+                    },
+                    text: "Continue",
+                    icon: const Icon(
+                      Icons.arrow_forward,
+                      color: Colors.white,
+                    ),
+                    iconLeft: false,
                   ),
-                  iconLeft: false,
                 ),
             ],
           ),

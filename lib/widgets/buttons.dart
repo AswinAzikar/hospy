@@ -63,8 +63,7 @@ class _LoadingButtonV1State extends State<LoadingButtonV1>
                   color: buttonColor,
                   borderRadius: BorderRadius.circular(30),
                 ),
-                height:
-                    screenHeight * 0.06, 
+                height: screenHeight * 0.06,
                 child: Stack(
                   children: [
                     Center(
@@ -81,8 +80,8 @@ class _LoadingButtonV1State extends State<LoadingButtonV1>
                       Positioned(
                         top: 0,
                         bottom: 0,
-                        left: widget.iconLeft ? 10 : null,
-                        right: widget.iconLeft ? null : 10,
+                        left: widget.iconLeft ? 5 : null,
+                        right: widget.iconLeft ? null : 5,
                         child: widget.icon!,
                       ),
                   ],

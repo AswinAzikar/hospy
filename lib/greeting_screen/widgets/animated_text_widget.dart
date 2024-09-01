@@ -19,14 +19,14 @@ class AnimatedWelcomeText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: screenHeight * 0.26,
+      height: screenHeight * 0.23,
       width: double.maxFinite,
       child: AnimatedTextKit(animatedTexts: [
         TypewriterAnimatedText(
           welcomeText,
           textStyle: textStyleTheme.displayLarge!.copyWith(
               fontWeight: FontWeight.bold,
-              fontSize: screenWidth * 0.15,
+              fontSize: screenWidth * 0.10,
               color: primaryColor2),
           speed: Durations.short2,
           cursor: '_',
