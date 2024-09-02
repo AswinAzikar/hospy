@@ -21,27 +21,27 @@ class DetailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
-        CustomTextField(
-          label: "Name : ",
-          keyboardType: TextInputType.name,
-          fieldController: _nameController,
-        ),
-        CustomTextField(
-          label: "Age :",
-          keyboardType: TextInputType.number,
-          fieldController: _ageController,
-        ),
-        CustomTextField(
-          label: "Email :",
-          keyboardType: TextInputType.emailAddress,
-          fieldController: _emailController,
-        ),
-        CustomTextField(
-            label: "Address :",
-            keyboardType: TextInputType.multiline,
-            fieldController: _addressController),
+        //   CustomTextFormField(
+        //     label: "Name : ",
+        //     keyboardType: TextInputType.name,
+        //     fieldController: _nameController,
+        //   ),
+        //   CustomTextFormField(
+        //     label: "Age :",
+        //     keyboardType: TextInputType.number,
+        //     fieldController: _ageController,
+        //   ),
+        //   CustomTextFormField(
+        //     label: "Email :",
+        //     keyboardType: TextInputType.emailAddress,
+        //     fieldController: _emailController,
+        //   ),
+        //   CustomTextFormField(
+        //       label: "Address :",
+        //       keyboardType: TextInputType.multiline,
+        //       fieldController: _addressController),
       ],
     );
   }

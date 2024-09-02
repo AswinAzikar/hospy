@@ -1,91 +1,100 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:gap/gap.dart';
 import 'package:hospy/constants/color_const.dart';
 import 'package:hospy/constants/value_const.dart';
-import 'package:hospy/gen/assets.gen.dart';
-import 'package:hospy/signup_screen/widgets/detail_widget.dart';
-import 'package:hospy/signup_screen/widgets/signup_buttons.dart';
+import 'package:hospy/signup_screen/widgets/enter_detail_widget.dart';
 import 'package:hospy/widgets/buttons.dart';
 import 'package:hospy/widgets/custom_text_field.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+import 'widgets/signup_text_widget.dart';
+
+class SighupScreen extends StatefulWidget {
+  const SighupScreen({super.key});
 
   @override
-  _SignUpScreenState createState() => _SignUpScreenState();
+  State<SighupScreen> createState() => _SighupScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
-  bool _isScrolled = false;
-  final TextEditingController _nameController = TextEditingController();
+class _SighupScreenState extends State<SighupScreen> {
+  final TextEditingController _firstNameController = TextEditingController();
+
+  final TextEditingController _secondNameController = TextEditingController();
+
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _ageController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(const Duration(milliseconds: 100), () {
-      setState(() {
-        _isScrolled = true;
-      });
-    });
-  }
+  // final TextEditingController _ageController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _ischecked = true;
 
+// void _onPressedChecKBox(bool value){
+//   setState(() {
+//     _ischecked = !_ischecked;
+//   });
+// }
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+    TextTheme textStyleTheme = Theme.of(context).textTheme;
+    double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: primaryColor1,
-      body: Stack(
-        children: [
-          SvgPicture.asset(Assets.svg.tellUsMore),
-          SafeArea(
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 500),
-                height: _isScrolled ? screenHeight * 0.7 : 0,
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(30),
-                  ),
-                ),
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: Column(
+      backgroundColor: bgColor1,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(15.0, 0, 15, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SignupTextWidget(
+                screenWidth: screenWidth,
+                textStyleTheme: textStyleTheme,
+              ),
+              gapLarge,
+              gapLarge,
+              EnterDetailWidget(
+                  firstNameController: _firstNameController,
+                  secondNameController: _secondNameController,
+                  emailController: _emailController,
+                  passwordController: _passwordController),
+              gapLarge,
+              Row(
+                children: [
+                  Checkbox(
+                      activeColor: primaryColor2,
+                      value: _ischecked,
+                      onChanged: (_) {
+                        setState(() {
+                          _ischecked = !_ischecked;
+                        });
+                      }),
+                  Column(
                     children: [
-                      DetailWidget(
-                        nameController: _nameController,
-                        ageController: _ageController,
-                        emailController: _emailController,
-                        addressController: _addressController,
-                      ),
-                      Gap(screenHeight * 0.07),
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: LoadingButtonV1(
-                          iconLeft: false,
-                          onPressed: () {},
-                          text: "Next",
-                          icon: const Icon(
-                            Icons.arrow_forward,
-                            color: Colors.white,
-                          ),
-                        ),
+                      Row(
+                        children: [
+                          RichText(
+                              softWrap: true,
+                              text: TextSpan(
+                                  style: textStyleTheme.bodySmall,
+                                  text: "By tapping this, you agree to our ",
+                                  children: [
+                                    TextSpan(
+                                      style: textStyleTheme.bodySmall!.copyWith(
+                                          color: primaryColor2,
+                                          fontWeight: FontWeight.bold),
+                                      text: "Terms & conditions.",
+                                    )
+                                  ]))
+                        ],
                       )
                     ],
-                  ),
-                ),
+                  )
+                ],
               ),
-            ),
+              LoadingButtonV1(onPressed: () {}, text: "Continue"),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
