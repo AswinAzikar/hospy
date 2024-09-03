@@ -95,7 +95,7 @@ class _GreetingScreenState extends State<GreetingScreen>
                       Navigator.push(
                           context,
                           PageTransition(
-                              child: SighupScreen(),
+                              child: const SignUpScreen(),
                               type: PageTransitionType.rightToLeft));
                     },
                     text: "Continue",

@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:hospy/bottom_navigation/bottom_navbar.dart';
 import 'package:hospy/greeting_screen/GreetingScreen.dart';
 import 'package:hospy/landing_screen/landing_screen.dart';
 import 'package:hospy/theme/theme.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: fontTheme,
-      home: const LandingScreen(),
+      home: const CustomBottomNavigationBar(),
     );
   }
 }

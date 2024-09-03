@@ -1,22 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hospy/bottom_navigation/bottom_navbar.dart';
 import 'package:hospy/constants/color_const.dart';
 import 'package:hospy/constants/value_const.dart';
+import 'package:hospy/firebase/user_model.dart';
 import 'package:hospy/signup_screen/widgets/enter_detail_widget.dart';
 import 'package:hospy/theme/theme.dart';
 import 'package:hospy/widgets/buttons.dart';
-
+import 'package:page_transition/page_transition.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import 'widgets/signup_text_widget.dart';
 
-class SighupScreen extends StatefulWidget {
-  const SighupScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<SighupScreen> createState() => _SighupScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SighupScreenState extends State<SighupScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _secondNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -29,8 +31,7 @@ class _SighupScreenState extends State<SighupScreen> {
   bool _emailEmpty = false;
   bool _passwordEmpty = false;
   bool _confirmPasswordEmpty = false;
-  bool _ischecked = true;
-  // final bool _canValidate = false;
+  bool _isChecked = false;
 
   void _validateFields() {
     setState(() {
@@ -51,30 +52,72 @@ class _SighupScreenState extends State<SighupScreen> {
     }
   }
 
-  void _validateTheFieldAndMoveToNextPage() {
-    _validateFields();
+  Future<void> _saveDataToFireStore() async {
+    UserModel userModel = UserModel(
+      name: "${_firstNameController.text} ${_secondNameController.text}",
+      email: _emailController.text,
+    );
 
-    if (!_firstNameEmpty &&
-        !_secondNameEmpty &&
-        !_emailEmpty &&
-        !_passwordEmpty &&
-        _confirmPasswordController.text == _passwordController.text) {
+    Map<String, dynamic> userJson = userModel.toJson();
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(_emailController.text)
+        .set(userJson);
+  }
+
+  void _validateTheFieldAndMoveToNextPage() {
+    setState(() {
+      _firstNameEmpty = _firstNameController.text.isEmpty;
+      _secondNameEmpty = _secondNameController.text.isEmpty;
+      _emailEmpty = _emailController.text.isEmpty;
+      _passwordEmpty = _passwordController.text.isEmpty;
+      _confirmPasswordEmpty = _confirmPasswordController.text.isEmpty;
+    });
+
+    if (_firstNameEmpty ||
+        _secondNameEmpty ||
+        _emailEmpty ||
+        _passwordEmpty ||
+        _confirmPasswordEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+          "Please fill in all the fields.",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.red,
+      ));
+    } else if (_passwordController.text != _confirmPasswordController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+          "Passwords do not match.",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.red,
+      ));
+    } else if (!_isChecked) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+          "Please agree to our Terms and Conditions.",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.red,
+      ));
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Processing Data'),
           backgroundColor: primaryColor2,
         ),
       );
-    }
-
-    if (_confirmPasswordController.text != _passwordController.text) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text(
-          "Please confirm your pasword. ",
-          style: TextStyle(fontWeight: FontWeight.bold),
+      _saveDataToFireStore();
+      Navigator.push(
+        context,
+        PageTransition(
+          child: const CustomBottomNavigationBar(),
+          type: PageTransitionType.rightToLeft,
         ),
-        backgroundColor: Colors.red,
-      ));
+      );
     }
   }
 
@@ -90,6 +133,7 @@ class _SighupScreenState extends State<SighupScreen> {
           backgroundColor: Colors.transparent,
         ),
         body: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(15.0, 0, 15, 0),
             child: Column(
@@ -113,39 +157,31 @@ class _SighupScreenState extends State<SighupScreen> {
                   children: [
                     Checkbox(
                       activeColor: primaryColor2,
-                      value: _ischecked,
+                      value: _isChecked,
                       onChanged: (_) {
                         setState(() {
-                          _ischecked = !_ischecked;
+                          _isChecked = !_isChecked;
                         });
                       },
                     ),
-                    Column(
-                      children: [
-                        Row(
+                    GestureDetector(
+                      onTap: _launchURL,
+                      child: RichText(
+                        softWrap: true,
+                        text: TextSpan(
+                          style: textStyleTheme.bodySmall,
+                          text: "By tapping this, you agree to our ",
                           children: [
-                            GestureDetector(
-                              onTap: _launchURL,
-                              child: RichText(
-                                softWrap: true,
-                                text: TextSpan(
-                                  style: textStyleTheme.bodySmall,
-                                  text: "By tapping this, you agree to our ",
-                                  children: [
-                                    TextSpan(
-                                      style: textStyleTheme.bodySmall!.copyWith(
-                                        color: primaryColor2,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      text: "Terms & conditions.",
-                                    ),
-                                  ],
-                                ),
+                            TextSpan(
+                              style: textStyleTheme.bodySmall!.copyWith(
+                                color: primaryColor2,
+                                fontWeight: FontWeight.bold,
                               ),
+                              text: "Terms & conditions.",
                             ),
                           ],
                         ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
@@ -186,7 +222,7 @@ class _SighupScreenState extends State<SighupScreen> {
                                   fontWeight: FontWeight.w600)),
                         if (_passwordController.text !=
                             _confirmPasswordController.text)
-                          Text('* password Error',
+                          Text('* Password Error',
                               style: textStyleTheme.bodySmall!.copyWith(
                                   color: Colors.red,
                                   fontWeight: FontWeight.w600)),
@@ -196,7 +232,7 @@ class _SighupScreenState extends State<SighupScreen> {
                 LoadingButtonV1(
                   onPressed: _validateTheFieldAndMoveToNextPage,
                   text: "Continue",
-                ),
+                )
               ],
             ),
           ),

@@ -5,18 +5,19 @@ part 'user_model.g.dart';
 class UserModel {
   String name;
   String email;
-  String address;
-  double latitude;
-  List<String> familyMembers;
-  String profilePhoto;
+  String ?address;
+  double? latitude;
+  List<String>? familyMembers;
+  String? profilePhoto;
 
   UserModel({
     required this.name,
     required this.email,
-    required this.address,
-    required this.latitude,
-    required this.familyMembers,
-    required this.profilePhoto,
+ this.address,
+     this.latitude,
+    this.familyMembers,
+    this.profilePhoto,
+    
   });
 
 //  Factory constructor to create a new UserModel instance from a map.

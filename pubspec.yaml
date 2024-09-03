@@ -27,6 +27,7 @@ dependencies:
   animated_text_kit: ^4.2.2
   page_transition: ^2.1.0
   url_launcher: ^6.3.0
+  colorful_safe_area: ^1.0.0
 
 dev_dependencies:
   flutter_test:

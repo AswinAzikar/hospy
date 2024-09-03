@@ -8,7 +8,8 @@ class CustomTextFormField extends StatelessWidget {
     required this.hintText,
     required TextInputType keyboardType,
     required TextEditingController fieldController,
-    this.validator, this.obscure,
+    this.validator,
+    this.obscure,
   })  : _keyboardType = keyboardType,
         _fieldController = fieldController;
 
@@ -17,13 +18,13 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputType _keyboardType;
   final TextEditingController _fieldController;
   final String? Function(String?)? validator;
-  final bool? obscure ;
+  final bool? obscure;
 
   @override
   Widget build(BuildContext context) {
     double borderRadius = 40.0;
     return TextFormField(
-      obscureText:  obscure ?? false,
+      obscureText: obscure ?? false,
       keyboardType: _keyboardType,
       controller: _fieldController,
       decoration: InputDecoration(
@@ -45,21 +46,21 @@ class CustomTextFormField extends StatelessWidget {
           borderRadius: BorderRadius.circular(borderRadius),
           borderSide: const BorderSide(
             color: Colors.black,
-            width: 1.0,
+            width: 0.4,
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),
           borderSide: const BorderSide(
             color: Colors.black,
-            width: 1.0,
+            width: .4,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),
           borderSide: const BorderSide(
             color: primaryColor2,
-            width: 1.0,
+            width: 1,
           ),
         ),
       ),
