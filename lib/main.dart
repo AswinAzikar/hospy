@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: fontTheme,
-      home: const GreetingScreen(),
+      home: const LandingScreen(),
     );
   }
 }

@@ -30,7 +30,7 @@ class _SighupScreenState extends State<SighupScreen> {
   bool _passwordEmpty = false;
   bool _confirmPasswordEmpty = false;
   bool _ischecked = true;
-  final bool _canValidate = false;
+  // final bool _canValidate = false;
 
   void _validateFields() {
     setState(() {
@@ -54,15 +54,27 @@ class _SighupScreenState extends State<SighupScreen> {
   void _validateTheFieldAndMoveToNextPage() {
     _validateFields();
 
-    if (_canValidate &&
-        !_firstNameEmpty &&
+    if (!_firstNameEmpty &&
         !_secondNameEmpty &&
         !_emailEmpty &&
         !_passwordEmpty &&
         _confirmPasswordController.text == _passwordController.text) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Processing Data')),
+        const SnackBar(
+          content: Text('Processing Data'),
+          backgroundColor: primaryColor2,
+        ),
       );
+    }
+
+    if (_confirmPasswordController.text != _passwordController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+          "Please confirm your pasword. ",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.red,
+      ));
     }
   }
 
@@ -149,29 +161,35 @@ class _SighupScreenState extends State<SighupScreen> {
                       children: [
                         if (_firstNameEmpty)
                           Text('* First name is required',
-                              style: textStyleTheme.bodySmall!
-                                  .copyWith(color: Colors.red)),
+                              style: textStyleTheme.bodySmall!.copyWith(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.w600)),
                         if (_secondNameEmpty)
                           Text('* Second name is required',
-                              style: textStyleTheme.bodySmall!
-                                  .copyWith(color: Colors.red)),
+                              style: textStyleTheme.bodySmall!.copyWith(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.w600)),
                         if (_emailEmpty)
                           Text('* Email is required',
-                              style: textStyleTheme.bodySmall!
-                                  .copyWith(color: Colors.red)),
+                              style: textStyleTheme.bodySmall!.copyWith(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.w600)),
                         if (_passwordEmpty)
                           Text('* Password is required',
-                              style: textStyleTheme.bodySmall!
-                                  .copyWith(color: Colors.red)),
+                              style: textStyleTheme.bodySmall!.copyWith(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.w600)),
                         if (_confirmPasswordEmpty)
                           Text('* Please confirm your password',
-                              style: textStyleTheme.bodySmall!
-                                  .copyWith(color: Colors.red)),
+                              style: textStyleTheme.bodySmall!.copyWith(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.w600)),
                         if (_passwordController.text !=
                             _confirmPasswordController.text)
                           Text('* password Error',
-                              style: textStyleTheme.bodySmall!
-                                  .copyWith(color: Colors.red)),
+                              style: textStyleTheme.bodySmall!.copyWith(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.w600)),
                       ],
                     ),
                   ),
