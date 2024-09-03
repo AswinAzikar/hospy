@@ -9,15 +9,18 @@ class EnterDetailWidget extends StatelessWidget {
     required TextEditingController secondNameController,
     required TextEditingController emailController,
     required TextEditingController passwordController,
+    required  TextEditingController confirmPasswordController,
   })  : _firstNameController = firstNameController,
         _secondNameController = secondNameController,
         _emailController = emailController,
-        _passwordController = passwordController;
+        _passwordController = passwordController,
+        _confirmPasswordController = confirmPasswordController;
 
   final TextEditingController _firstNameController;
   final TextEditingController _secondNameController;
   final TextEditingController _emailController;
   final TextEditingController _passwordController;
+  final  TextEditingController _confirmPasswordController;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +58,7 @@ class EnterDetailWidget extends StatelessWidget {
           label: "Confirm Password",
           hintText: "Confirm your password",
           keyboardType: TextInputType.text,
-          fieldController: _passwordController,
+          fieldController: _confirmPasswordController,
           obscure: true,
         ),
       ],
