@@ -82,8 +82,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
       );
     }
   }
-
-  void _verifyOTP(String smsCode) async {
+void _verifyOTP(String smsCode) async {
     if (_verificationId != null) {
       try {
         PhoneAuthCredential credential = PhoneAuthProvider.credential(
@@ -103,31 +102,32 @@ class _PhoneAuthState extends State<PhoneAuth> {
           }
 
           FirebaseFirestore firestore = FirebaseFirestore.instance;
+          DocumentReference userDocRef =
+              firestore.collection('users').doc(user.uid);
 
-          DocumentSnapshot<Map<String, dynamic>> userDoc =
-              await firestore.collection('users').doc(user.uid).get();
+          DocumentSnapshot<Object?> userDoc =
+              await userDocRef.get();
 
-          if (userDoc.exists) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const CustomBottomNavigationBar()),
-            );
-          } else {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const GreetingScreen()),
-            );
+          if (!userDoc.exists) {
+            // Create a new user document
+            await userDocRef.set({
+              'name': user.displayName ?? 'Anonymous',
+              'phone': user.phoneNumber,
+              // Add more fields as necessary
+            });
           }
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const CustomBottomNavigationBar()),
+          );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Sign-in failed')),
           );
         }
       } catch (e) {
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   SnackBar(content: Text('Error during OTP verification: $e')),
-        // );
         logger.f("Error is $e");
       }
     } else {

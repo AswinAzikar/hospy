@@ -9,12 +9,12 @@ part of 'user_model.dart';
 UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       name: json['name'] as String,
       email: json['email'] as String,
-      address: json['address'] as String,
-      latitude: (json['latitude'] as num).toDouble(),
-      familyMembers: (json['familyMembers'] as List<dynamic>)
-          .map((e) => e as String)
+      address: json['address'] as String?,
+      latitude: (json['latitude'] as num?)?.toDouble(),
+      familyMembers: (json['familyMembers'] as List<dynamic>?)
+          ?.map((e) => e as String)
           .toList(),
-      profilePhoto: json['profilePhoto'] as String,
+      profilePhoto: json['profilePhoto'] as String?,
     );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
