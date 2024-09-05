@@ -5,7 +5,7 @@ import 'package:hospy/constants/color_const.dart';
 import 'package:hospy/constants/value_const.dart';
 import 'package:hospy/firebase/user_model.dart';
 import 'package:hospy/signup_screen/widgets/enter_detail_widget.dart';
-import 'package:hospy/theme/theme.dart';
+
 import 'package:hospy/widgets/buttons.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:url_launcher/url_launcher.dart';

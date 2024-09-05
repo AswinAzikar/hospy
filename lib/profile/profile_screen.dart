@@ -93,43 +93,85 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   width: double.maxFinite,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Row(
+                    child: Column(
                       children: [
-                        CircleAvatar(
-                          radius: 40,
-                          foregroundImage:
-                              AssetImage(Assets.jpg.profilePhoto.path),
-                        ),
-                        const SizedBox(width: 16),
-                        _isLoading
-                            ? Shimmer.fromColors(
-                                baseColor: Colors.black45,
-                                highlightColor: Colors.white24,
-                                child: Container(
-                                  width: 150,
-                                  height: 20,
-                                  color: Colors.white,
-                                ),
-                              )
-                            : _userModel != null
-                                ? Text(
-                                    _userModel?.name??"Aswin Manmathan S",
-                                    style:
-                                        textStyleTheme.headlineSmall!.copyWith(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 40,
+                              foregroundImage:
+                                  AssetImage(Assets.jpg.profilePhoto.path),
+                            ),
+                            const SizedBox(width: 16),
+                            _isLoading
+                                ? Shimmer.fromColors(
+                                    baseColor: Colors.black45,
+                                    highlightColor: Colors.white24,
+                                    child: Container(
+                                      width: 150,
+                                      height: 20,
                                       color: Colors.white,
                                     ),
                                   )
-                                : Text(
-                                    'User not found',
-                                    style:
-                                        textStyleTheme.headlineSmall!.copyWith(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
+                                : _userModel != null
+                                    ? Text(
+                                        _userModel?.name ?? "Aswin Manmathan S",
+                                        style: textStyleTheme.headlineSmall!
+                                            .copyWith(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : Text(
+                                        'User not found',
+                                        style: textStyleTheme.headlineSmall!
+                                            .copyWith(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                          ],
+                        ),
+                        SizedBox(height: 12),
+                        Row(
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            _isLoading
+                                ? Shimmer.fromColors(
+                                    baseColor: Colors.black45,
+                                    highlightColor: Colors.white24,
+                                    child: Container(
+                                      width: 150,
+                                      height: 20,
                                       color: Colors.white,
                                     ),
-                                  ),
+                                  )
+                                : _userModel != null
+                                    ? Text(
+                                        _userModel?.email ??
+                                            "Aswin Manmathan S",
+                                        style: textStyleTheme.headlineSmall!
+                                            .copyWith(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : Text(
+                                        'User not found',
+                                        style: textStyleTheme.headlineSmall!
+                                            .copyWith(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                          ],
+                        ),
                       ],
                     ),
                   ),

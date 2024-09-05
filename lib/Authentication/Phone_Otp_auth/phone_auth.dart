@@ -2,13 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-import 'package:hospy/Authentication%20/Phone_Otp_auth/widgets/enter_otp_svg.dart';
-import 'package:hospy/Authentication%20/Phone_Otp_auth/widgets/input_number_svg.dart';
+
+import 'package:hospy/Authentication/Phone_Otp_auth/widgets/enter_otp_svg.dart';
+import 'package:hospy/Authentication/Phone_Otp_auth/widgets/input_number_svg.dart';
 import 'package:hospy/bottom_navigation/bottom_navbar.dart';
 import 'package:hospy/constants/color_const.dart';
 import 'package:hospy/constants/value_const.dart';
-import 'package:hospy/home_screen/home_screen.dart';
-import 'package:hospy/greeting_screen/GreetingScreen.dart';
+
 import 'package:hospy/widgets/buttons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'widgets/input_phone_number.dart';
@@ -82,7 +82,8 @@ class _PhoneAuthState extends State<PhoneAuth> {
       );
     }
   }
-void _verifyOTP(String smsCode) async {
+
+  void _verifyOTP(String smsCode) async {
     if (_verificationId != null) {
       try {
         PhoneAuthCredential credential = PhoneAuthProvider.credential(
@@ -105,14 +106,13 @@ void _verifyOTP(String smsCode) async {
           DocumentReference userDocRef =
               firestore.collection('users').doc(user.uid);
 
-          DocumentSnapshot<Object?> userDoc =
-              await userDocRef.get();
+          DocumentSnapshot<Object?> userDoc = await userDocRef.get();
 
           if (!userDoc.exists) {
             // Create a new user document
             await userDocRef.set({
               'name': user.displayName ?? 'Anonymous',
-              'phone': user.phoneNumber,
+              'email': 'jestin@gmail.com',
               // Add more fields as necessary
             });
           }
