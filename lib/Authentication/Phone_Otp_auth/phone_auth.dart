@@ -8,8 +8,10 @@ import 'package:hospy/Authentication/Phone_Otp_auth/widgets/input_number_svg.dar
 import 'package:hospy/bottom_navigation/bottom_navbar.dart';
 import 'package:hospy/constants/color_const.dart';
 import 'package:hospy/constants/value_const.dart';
+import 'package:hospy/greeting_screen/GreetingScreen.dart';
 
 import 'package:hospy/widgets/buttons.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'widgets/input_phone_number.dart';
 
@@ -110,18 +112,20 @@ class _PhoneAuthState extends State<PhoneAuth> {
 
           if (!userDoc.exists) {
             // Create a new user document
-            await userDocRef.set({
-              'name': user.displayName ?? 'Anonymous',
-              'email': 'jestin@gmail.com',
-              // Add more fields as necessary
-            });
+            Navigator.push(
+                context,
+                PageTransition(
+                    child: GreetingScreen(a: credential),
+                    type: PageTransitionType.rightToLeft));
           }
 
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const CustomBottomNavigationBar()),
-          );
+          if (userDoc.exists) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const CustomBottomNavigationBar()),
+            );
+          }
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Sign-in failed')),

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hospy/bottom_navigation/bottom_navbar.dart';
 import 'package:hospy/constants/color_const.dart';
@@ -12,7 +13,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'widgets/signup_text_widget.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+  final PhoneAuthCredential a;
+  const SignUpScreen({super.key, required this.a});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -25,6 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   bool _firstNameEmpty = false;
   bool _secondNameEmpty = false;
@@ -53,17 +56,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future<void> _saveDataToFireStore() async {
-    UserModel userModel = UserModel(
-      name: "${_firstNameController.text} ${_secondNameController.text}",
-      email: _emailController.text,
-    );
+    UserCredential userCredential = await _auth.signInWithCredential(widget.a);
+    User? user = userCredential.user;
 
-    Map<String, dynamic> userJson = userModel.toJson();
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    DocumentReference userDocRef = firestore.collection('users').doc(user!.uid);
 
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(_emailController.text)
-        .set(userJson);
+    // Create a new user document
+    await userDocRef.set({
+      'name': "${_firstNameController.text} ${_secondNameController.text}" ??
+          'Anonymous',
+      'email': _emailController.text,
+      // Add more fields as necessary
+    });
   }
 
   void _validateTheFieldAndMoveToNextPage() {

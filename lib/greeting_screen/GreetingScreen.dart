@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hospy/constants/color_const.dart';
@@ -9,7 +10,8 @@ import 'package:hospy/widgets/buttons.dart';
 import 'package:page_transition/page_transition.dart';
 
 class GreetingScreen extends StatefulWidget {
-  const GreetingScreen({super.key});
+  final PhoneAuthCredential a;
+  const GreetingScreen({super.key, required this.a});
 
   @override
   State<GreetingScreen> createState() => _GreetingScreenState();
@@ -93,10 +95,13 @@ class _GreetingScreenState extends State<GreetingScreen>
                   child: LoadingButtonV1(
                     onPressed: () {
                       Navigator.push(
-                          context,
-                          PageTransition(
-                              child: const SignUpScreen(),
-                              type: PageTransitionType.rightToLeft));
+                        context,
+                        PageTransition(
+                          child:
+                              SignUpScreen(a: widget.a), // Corrected reference
+                          type: PageTransitionType.rightToLeft,
+                        ),
+                      );
                     },
                     text: "Continue",
                     icon: const Icon(
