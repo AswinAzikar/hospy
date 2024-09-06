@@ -1,5 +1,6 @@
-
+import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hospy/Authentication/Phone_Otp_auth/phone_auth.dart';
 
@@ -17,7 +18,15 @@ class LandingScreen extends StatefulWidget {
 class _LandingScreenState extends State<LandingScreen> {
   @override
   Widget build(BuildContext context) {
+    final ScreenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        toolbarHeight: ScreenHeight * 0.001,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: primaryColor1,
+            statusBarIconBrightness: Brightness.dark),
+      ),
       backgroundColor: primaryColor1,
       body: Stack(
         children: [

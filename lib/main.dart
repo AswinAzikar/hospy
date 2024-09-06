@@ -13,7 +13,6 @@ void main() async {
     const MyApp(),
   );
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.white,
     statusBarIconBrightness: Brightness.dark,
   ));
 }
@@ -25,6 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: fontTheme,
+      debugShowCheckedModeBanner: false,
       home: const LandingScreen(),
     );
   }

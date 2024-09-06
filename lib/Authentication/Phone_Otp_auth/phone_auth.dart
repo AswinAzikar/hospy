@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 
 import 'package:hospy/Authentication/Phone_Otp_auth/widgets/enter_otp_svg.dart';
@@ -147,8 +148,10 @@ class _PhoneAuthState extends State<PhoneAuth> {
     double screenWidth = MediaQuery.of(context).size.width;
     TextTheme textStyleTheme = Theme.of(context).textTheme;
     return Scaffold(
-      // backgroundColor: primaryColor1,
+      backgroundColor: bgColor1,
       appBar: AppBar(
+        systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: bgColor1, statusBarIconBrightness: Brightness.dark),
         backgroundColor: Colors.transparent,
         title: Text(
           _isOTPSend ? 'Otp Verification' : 'Login with Phone number',

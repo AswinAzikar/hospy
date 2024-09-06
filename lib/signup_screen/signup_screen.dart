@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hospy/bottom_navigation/bottom_navbar.dart';
 import 'package:hospy/constants/color_const.dart';
 import 'package:hospy/constants/value_const.dart';
@@ -135,6 +136,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       child: Scaffold(
         backgroundColor: bgColor1,
         appBar: AppBar(
+          systemOverlayStyle: const SystemUiOverlayStyle(
+              statusBarIconBrightness: Brightness.dark),
           backgroundColor: Colors.transparent,
         ),
         body: SingleChildScrollView(

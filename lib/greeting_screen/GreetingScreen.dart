@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hospy/constants/color_const.dart';
 
@@ -67,52 +68,53 @@ class _GreetingScreenState extends State<GreetingScreen>
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      appBar: AppBar(
+        systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: bgColor1, statusBarIconBrightness: Brightness.dark),
+      ),
       backgroundColor: bgColor1,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              AnimatedWelcomeText(
-                welcomeText: welcomeText,
-                textStyleTheme: textStyleTheme,
-                screenWidth: screenWidth,
-                screenHeight: screenHeight,
-              ),
-              SlideTransition(
-                position: _slideAnimation,
-                child: SizedBox(
-                  child: SvgPicture.asset(
-                    Assets.svg.getStarted,
-                    fit: BoxFit.contain,
-                  ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            AnimatedWelcomeText(
+              welcomeText: welcomeText,
+              textStyleTheme: textStyleTheme,
+              screenWidth: screenWidth,
+              screenHeight: screenHeight,
+            ),
+            SlideTransition(
+              position: _slideAnimation,
+              child: SizedBox(
+                child: SvgPicture.asset(
+                  Assets.svg.getStarted,
+                  fit: BoxFit.contain,
                 ),
               ),
-              if (_isButtonVisible)
-                Container(
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, screenHeight * 0.077),
-                  child: LoadingButtonV1(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        PageTransition(
-                          child:
-                              SignUpScreen(a: widget.a), // Corrected reference
-                          type: PageTransitionType.rightToLeft,
-                        ),
-                      );
-                    },
-                    text: "Continue",
-                    icon: const Icon(
-                      Icons.arrow_forward,
-                      color: Colors.white,
-                    ),
-                    iconLeft: false,
+            ),
+            if (_isButtonVisible)
+              Container(
+                padding: EdgeInsets.fromLTRB(0, 0, 0, screenHeight * 0.077),
+                child: LoadingButtonV1(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      PageTransition(
+                        child: SignUpScreen(a: widget.a), // Corrected reference
+                        type: PageTransitionType.rightToLeft,
+                      ),
+                    );
+                  },
+                  text: "Continue",
+                  icon: const Icon(
+                    Icons.arrow_forward,
+                    color: Colors.white,
                   ),
+                  iconLeft: false,
                 ),
-            ],
-          ),
+              ),
+          ],
         ),
       ),
     );
