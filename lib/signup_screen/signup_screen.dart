@@ -65,8 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     // Create a new user document
     await userDocRef.set({
-      'name': "${_firstNameController.text} ${_secondNameController.text}" ??
-          'Anonymous',
+      'name': "${_firstNameController.text} ${_secondNameController.text}" ,
       'email': _emailController.text,
       // Add more fields as necessary
     });

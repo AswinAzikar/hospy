@@ -29,8 +29,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         children: const <Widget>[HomeScreen(), ProfileScreen()],
       ),
       bottomNavigationBar: StylishBottomBar(
-
-        
         borderRadius: const BorderRadius.all(Radius.circular(20)),
         elevation: 20,
         notchStyle: NotchStyle.themeDefault,
