@@ -23,12 +23,12 @@ class $AssetsJpgGen {
 class $AssetsPngGen {
   const $AssetsPngGen();
 
-  /// File path: assets/png/landing_image_png.png
-  AssetGenImage get landingImagePng =>
-      const AssetGenImage('assets/png/landing_image_png.png');
+  /// File path: assets/png/defalut_user.png
+  AssetGenImage get defalutUser =>
+      const AssetGenImage('assets/png/defalut_user.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [landingImagePng];
+  List<AssetGenImage> get values => [defalutUser];
 }
 
 class $AssetsSvgGen {
@@ -39,6 +39,9 @@ class $AssetsSvgGen {
 
   /// File path: assets/svg/care.svg
   String get care => 'assets/svg/care.svg';
+
+  /// File path: assets/svg/default_user.svg
+  String get defaultUser => 'assets/svg/default_user.svg';
 
   /// File path: assets/svg/enter_otp.svg
   String get enterOtp => 'assets/svg/enter_otp.svg';
@@ -59,6 +62,7 @@ class $AssetsSvgGen {
   List<String> get values => [
         accountSettings,
         care,
+        defaultUser,
         enterOtp,
         getStarted,
         group,

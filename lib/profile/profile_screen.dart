@@ -124,8 +124,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       CircleAvatar(
                         radius: screenWidth * 0.1,
+                        backgroundImage:
+                            AssetImage(Assets.png.defalutUser.path),
                         foregroundImage:
-                            AssetImage(Assets.jpg.profilePhoto.path),
+                            AssetImage(Assets.png.defalutUser.path),
                       ),
                       gapLarge,
                       Row(
