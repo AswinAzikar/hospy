@@ -4,6 +4,7 @@ import 'package:hospy/constants/value_const.dart';
 
 class CommonContainer extends StatelessWidget {
   final Widget child;
+  final bool showShadow;
 
   final VoidCallback? onPressed;
 
@@ -13,6 +14,7 @@ class CommonContainer extends StatelessWidget {
     required this.child,
     this.backgroundColor,
     this.onPressed,
+    this.showShadow = false,
   });
 
   @override
@@ -24,9 +26,9 @@ class CommonContainer extends StatelessWidget {
             },
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(20.0),
             color: backgroundColor ?? containerColor,
-            boxShadow: commonShadow,
+            boxShadow: showShadow ? commonShadow : [],
           ),
           child: Padding(padding: const EdgeInsets.all(8.0), child: child),
         ));

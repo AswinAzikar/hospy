@@ -7,7 +7,7 @@ const Color containerColor = Colors.white;
 
 const primaryColor1 = Color(0xffffe1e1);
 const primaryColor2 = Color(0xffef7878);
-
+const primaryColor3 = Color(0xffecfff6);
 
 
 const LinearGradient primaryGradience = LinearGradient(
@@ -28,4 +28,3 @@ List <BoxShadow >commonShadow = [  BoxShadow(
 
 
 
-                      

@@ -1,7 +1,9 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:logger/logger.dart';
+import 'package:styled_divider/styled_divider.dart';
 
 // Extra Small Gaps
 const gapExtraSmall = Gap(4);
@@ -31,9 +33,9 @@ const gapVI = Gap(64); // Six times large
 const gapVII = Gap(72); // Seven times large
 const gapVIII = Gap(80); // Eight times large
 const gapIX = Gap(96); // Nine times large
-const gapX = Gap(104);  // Ten times large
+const gapX = Gap(104); // Ten times large
 
-var logger =  Logger();
+var logger = Logger();
 
 // Function to calculate dynamic border radius
 double calculateDynamicRadius(double width, double height,
@@ -44,3 +46,11 @@ double calculateDynamicRadius(double width, double height,
   // Calculate radius based on the given factor (default is 10% of the smaller dimension)
   return minDimension * factor;
 }
+
+final customDivider = StyledDivider(
+  color: Colors.grey[300],
+  thickness: 2,
+  lineStyle: DividerLineStyle.dashed,
+  indent: 20,
+  endIndent: 20,
+);

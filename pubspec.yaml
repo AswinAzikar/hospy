@@ -33,6 +33,7 @@ dependencies:
   flutter_toggle_tab: ^1.4.1
   toggle_switch: ^2.3.0
   flutter_toggle_button: ^0.0.3
+  styled_divider: ^1.0.5
 
 dev_dependencies:
   flutter_test:

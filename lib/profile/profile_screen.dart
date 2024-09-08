@@ -3,6 +3,7 @@ import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter_toggle_button/flutter_toggle_button.dart';
 import 'package:gap/gap.dart';
 import 'package:hospy/bottom_navigation/bottom_navbar.dart';
@@ -16,6 +17,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../widgets/common_container.dart';
+import 'widgets/profie_buttons.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -117,6 +119,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CommonContainer(
+                  //  backgroundColor: primaryColor3,
                   child: Column(
                     children: [
                       CircleAvatar(
@@ -141,10 +144,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 )
                         ],
                       ),
-
-
-
-                      Row(children: [],)
+                    ],
+                  ),
+                ),
+                gapLarge,
+                Container(
+                  decoration: BoxDecoration(
+                      color: containerColor,
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Column(
+                    children: [
+                      ProfileButton(
+                        onPressed: () {},
+                        label: "Members",
+                        screenWidth: screenWidth,
+                        textStyleTheme: textStyleTheme,
+                        iconPath: Assets.svg.group,
+                      ),
+                      customDivider,
+                      ProfileButton(
+                        onPressed: () {},
+                        label: "Account Settings",
+                        screenWidth: screenWidth,
+                        textStyleTheme: textStyleTheme,
+                        iconPath: Assets.svg.accountSettings,
+                      )
                     ],
                   ),
                 )

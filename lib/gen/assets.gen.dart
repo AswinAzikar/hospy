@@ -34,6 +34,9 @@ class $AssetsPngGen {
 class $AssetsSvgGen {
   const $AssetsSvgGen();
 
+  /// File path: assets/svg/account_settings.svg
+  String get accountSettings => 'assets/svg/account_settings.svg';
+
   /// File path: assets/svg/care.svg
   String get care => 'assets/svg/care.svg';
 
@@ -43,6 +46,9 @@ class $AssetsSvgGen {
   /// File path: assets/svg/get_started.svg
   String get getStarted => 'assets/svg/get_started.svg';
 
+  /// File path: assets/svg/group.svg
+  String get group => 'assets/svg/group.svg';
+
   /// File path: assets/svg/phone_auth.svg
   String get phoneAuth => 'assets/svg/phone_auth.svg';
 
@@ -50,8 +56,15 @@ class $AssetsSvgGen {
   String get tellUsMore => 'assets/svg/tell_us_more.svg';
 
   /// List of all assets
-  List<String> get values =>
-      [care, enterOtp, getStarted, phoneAuth, tellUsMore];
+  List<String> get values => [
+        accountSettings,
+        care,
+        enterOtp,
+        getStarted,
+        group,
+        phoneAuth,
+        tellUsMore
+      ];
 }
 
 class Assets {
