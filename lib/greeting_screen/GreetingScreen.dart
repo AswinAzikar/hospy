@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hospy/constants/color_const.dart';
+import 'package:hospy/custom_appbar/custom_appbar.dart';
 
 import 'package:hospy/gen/assets.gen.dart';
 import 'package:hospy/greeting_screen/widgets/animated_text_widget.dart';
@@ -11,8 +12,8 @@ import 'package:hospy/widgets/buttons.dart';
 import 'package:page_transition/page_transition.dart';
 
 class GreetingScreen extends StatefulWidget {
-  final PhoneAuthCredential a;
-  const GreetingScreen({super.key, required this.a});
+  final PhoneAuthCredential credentials;
+  const GreetingScreen({super.key, required this.credentials});
 
   @override
   State<GreetingScreen> createState() => _GreetingScreenState();
@@ -66,12 +67,13 @@ class _GreetingScreenState extends State<GreetingScreen>
     TextTheme textStyleTheme = Theme.of(context).textTheme;
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    Brightness darkStatusBarIconColor = Brightness.dark;
 
     return Scaffold(
-      appBar: AppBar(
-        systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: bgColor1, statusBarIconBrightness: Brightness.dark),
-      ),
+      appBar: CustomAppBarWithStatusBar(
+          appBarHeight: 0,
+          statusBarColor: bgColor1,
+          statusBarIconBrightness: darkStatusBarIconColor),
       backgroundColor: bgColor1,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -101,7 +103,8 @@ class _GreetingScreenState extends State<GreetingScreen>
                     Navigator.push(
                       context,
                       PageTransition(
-                        child: SignUpScreen(a: widget.a), // Corrected reference
+                        child: SignUpScreen(
+                            phoneAuthCredential: widget.credentials),
                         type: PageTransitionType.rightToLeft,
                       ),
                     );

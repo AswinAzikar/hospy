@@ -116,7 +116,9 @@ class _PhoneAuthState extends State<PhoneAuth> {
             Navigator.push(
                 context,
                 PageTransition(
-                    child: GreetingScreen(a: credential),
+                    child: GreetingScreen(
+                      credentials: credential,
+                    ),
                     type: PageTransitionType.rightToLeft));
           }
 
@@ -124,7 +126,9 @@ class _PhoneAuthState extends State<PhoneAuth> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) => const CustomBottomNavigationBar()),
+                  builder: (context) => const CustomBottomNavigationBar(
+                        pageIndex: 0,
+                      )),
             );
           }
         } else {

@@ -14,8 +14,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'widgets/signup_text_widget.dart';
 
 class SignUpScreen extends StatefulWidget {
-  final PhoneAuthCredential a;
-  const SignUpScreen({super.key, required this.a});
+  final PhoneAuthCredential phoneAuthCredential;
+  const SignUpScreen({super.key, required this.phoneAuthCredential});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -57,13 +57,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future<void> _saveDataToFireStore() async {
-    UserCredential userCredential = await _auth.signInWithCredential(widget.a);
+    UserCredential userCredential = await _auth.signInWithCredential(widget.phoneAuthCredential);
     User? user = userCredential.user;
 
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     DocumentReference userDocRef = firestore.collection('users').doc(user!.uid);
 
-    // Create a new user document
+    // Create phoneAuthCredential new user document
     await userDocRef.set({
       'name': "${_firstNameController.text} ${_secondNameController.text}" ,
       'email': _emailController.text,

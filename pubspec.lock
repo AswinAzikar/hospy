@@ -424,6 +424,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_toggle_button:
+    dependency: "direct main"
+    description:
+      name: flutter_toggle_button
+      sha256: bc8f903ad381ceba9d57d61b353dc2557b33f3f8d6ed063d19ca491691ae0e81
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
   flutter_toggle_tab:
     dependency: "direct main"
     description:

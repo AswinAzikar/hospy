@@ -6,7 +6,8 @@ import 'package:hospy/profile/profile_screen.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
-  const CustomBottomNavigationBar({super.key});
+  const CustomBottomNavigationBar({super.key, this.pageIndex});
+  final int? pageIndex;
 
   @override
   State<CustomBottomNavigationBar> createState() =>
@@ -23,7 +24,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         controller: _pageController,
         onPageChanged: (index) {
           setState(() {
-            selectedIndex = index;
+            selectedIndex = widget.pageIndex ?? index;
           });
         },
         children: const <Widget>[HomeScreen(), ProfileScreen()],

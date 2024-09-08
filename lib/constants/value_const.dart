@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:gap/gap.dart';
 import 'package:logger/logger.dart';
 
@@ -32,3 +34,13 @@ const gapIX = Gap(96); // Nine times large
 const gapX = Gap(104);  // Ten times large
 
 var logger =  Logger();
+
+// Function to calculate dynamic border radius
+double calculateDynamicRadius(double width, double height,
+    {double factor = 0.1}) {
+  // Find the smaller dimension (width or height)
+  double minDimension = min(width, height);
+
+  // Calculate radius based on the given factor (default is 10% of the smaller dimension)
+  return minDimension * factor;
+}
