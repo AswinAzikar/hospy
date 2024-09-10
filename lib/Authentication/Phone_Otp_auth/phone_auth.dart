@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 
@@ -10,47 +11,38 @@ import 'package:hospy/bottom_navigation/bottom_navbar.dart';
 import 'package:hospy/constants/color_const.dart';
 import 'package:hospy/constants/value_const.dart';
 import 'package:hospy/greeting_screen/GreetingScreen.dart';
-
 import 'package:hospy/widgets/buttons.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'widgets/input_phone_number.dart';
 
-class PhoneAuth extends StatefulWidget {
+final otpStateProvider = StateProvider<bool>((ref) => false);
+final loadingStateProvider = StateProvider<bool>((ref) => false);
+final verificationIdProvider = StateProvider<String?>((ref) => null);
+final phoneNumberProvider = StateProvider<String?>((ref) => null);
+final countryCodeProvider = StateProvider<String>((ref) => '');
+
+class PhoneAuth extends ConsumerWidget {
   const PhoneAuth({super.key});
-
-  @override
-  State<PhoneAuth> createState() => _PhoneAuthState();
-}
-
-class _PhoneAuthState extends State<PhoneAuth> {
-  bool _isOTPSend = false;
-  bool _isLoading = false;
-  String? _verificationId;
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _countryController = TextEditingController();
-  final TextEditingController _otpController = TextEditingController();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> saveToken(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('user_token', token);
-    logger.w("Token saved to  shared preferences");
+    logger.w("Token saved to shared preferences");
   }
 
   bool _isValidPhoneNumber(String phoneNumber) {
-    final RegExp phoneRegex = RegExp(r'^[6-9]\d{9}$');
-    return phoneRegex.hasMatch(phoneNumber);
+    // Check if phone number is exactly 10 digits
+    return phoneNumber.length == 10 &&
+        RegExp(r'^[6-9]\d{9}$').hasMatch(phoneNumber);
   }
 
-  void _sendOTP() async {
-    String phoneNumber = _phoneController.text;
-    String countryCode = _countryController.text;
-
+  Future<void> _sendOTP(
+      WidgetRef ref, String phoneNumber, String countryCode) async {
     if (_isValidPhoneNumber(phoneNumber)) {
-      setState(() {
-        _isLoading = true;
-      });
+      ref.read(loadingStateProvider.notifier).state = true;
+
+      final FirebaseAuth _auth = FirebaseAuth.instance;
 
       await _auth.verifyPhoneNumber(
         phoneNumber: '$countryCode$phoneNumber',
@@ -58,81 +50,74 @@ class _PhoneAuthState extends State<PhoneAuth> {
           await _auth.signInWithCredential(credential);
         },
         verificationFailed: (FirebaseAuthException e) {
-          setState(() {
-            _isLoading = false;
-          });
-          ScaffoldMessenger.of(context).showSnackBar(
+          ref.read(loadingStateProvider.notifier).state = false;
+          ScaffoldMessenger.of(ref.context).showSnackBar(
             SnackBar(content: Text('Verification failed: ${e.message}')),
           );
         },
         codeSent: (String verificationId, int? forceResendingToken) {
-          setState(() {
-            _isOTPSend = true;
-            _verificationId = verificationId;
-            _isLoading = false;
-          });
+          ref.read(otpStateProvider.notifier).state = true;
+          ref.read(verificationIdProvider.notifier).state = verificationId;
+          ref.read(loadingStateProvider.notifier).state = false;
         },
         codeAutoRetrievalTimeout: (String verificationId) {
-          setState(() {
-            _verificationId = verificationId;
-            _isLoading = false;
-          });
+          ref.read(verificationIdProvider.notifier).state = verificationId;
+          ref.read(loadingStateProvider.notifier).state = false;
         },
       );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
+      ScaffoldMessenger.of(ref.context).showSnackBar(
         const SnackBar(content: Text('Invalid phone number')),
       );
     }
   }
 
-  void _verifyOTP(String smsCode) async {
-    if (_verificationId != null) {
+  Future<void> _verifyOTP(WidgetRef ref, String smsCode) async {
+    final verificationId = ref.read(verificationIdProvider);
+
+    if (verificationId != null) {
       try {
-        PhoneAuthCredential credential = PhoneAuthProvider.credential(
-          verificationId: _verificationId!,
+        final FirebaseAuth _auth = FirebaseAuth.instance;
+        final PhoneAuthCredential credential = PhoneAuthProvider.credential(
+          verificationId: verificationId,
           smsCode: smsCode,
         );
 
-        UserCredential userCredential =
+        final UserCredential userCredential =
             await _auth.signInWithCredential(credential);
-        User? user = userCredential.user;
+        final User? user = userCredential.user;
 
         if (user != null) {
-          String? token = await user.getIdToken();
+          final String? token = await user.getIdToken();
           if (token != null) {
             logger.w("The token is $token");
             await saveToken(token);
           }
 
-          FirebaseFirestore firestore = FirebaseFirestore.instance;
-          DocumentReference userDocRef =
+          final FirebaseFirestore firestore = FirebaseFirestore.instance;
+          final DocumentReference userDocRef =
               firestore.collection('users').doc(user.uid);
-
-          DocumentSnapshot<Object?> userDoc = await userDocRef.get();
+          final DocumentSnapshot<Object?> userDoc = await userDocRef.get();
 
           if (!userDoc.exists) {
-            // Create a new user document
             Navigator.push(
-                context,
-                PageTransition(
-                    child: GreetingScreen(
-                      credentials: credential,
-                    ),
-                    type: PageTransitionType.rightToLeft));
-          }
-
-          if (userDoc.exists) {
+              ref.context,
+              PageTransition(
+                child: GreetingScreen(credentials: credential),
+                type: PageTransitionType.rightToLeft,
+              ),
+            );
+          } else {
             Navigator.pushReplacement(
-              context,
+              ref.context,
               MaterialPageRoute(
-                  builder: (context) => const CustomBottomNavigationBar(
-                        pageIndex: 0,
-                      )),
+                builder: (context) =>
+                    const CustomBottomNavigationBar(pageIndex: 0),
+              ),
             );
           }
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
+          ScaffoldMessenger.of(ref.context).showSnackBar(
             const SnackBar(content: Text('Sign-in failed')),
           );
         }
@@ -140,25 +125,36 @@ class _PhoneAuthState extends State<PhoneAuth> {
         logger.f("Error is $e");
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
+      ScaffoldMessenger.of(ref.context).showSnackBar(
         const SnackBar(content: Text('Verification ID is not set')),
       );
     }
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isOTPSent = ref.watch(otpStateProvider);
+    final isLoading = ref.watch(loadingStateProvider);
+    final phoneNumber = ref.watch(phoneNumberProvider) ?? '';
+    final countryCode = ref.watch(countryCodeProvider);
+
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     TextTheme textStyleTheme = Theme.of(context).textTheme;
+
+    final phoneController = TextEditingController(text: phoneNumber);
+    final countryCodeController = TextEditingController(text: countryCode);
+
     return Scaffold(
       backgroundColor: bgColor1,
       appBar: AppBar(
         systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: bgColor1, statusBarIconBrightness: Brightness.dark),
+          statusBarColor: bgColor1,
+          statusBarIconBrightness: Brightness.dark,
+        ),
         backgroundColor: Colors.transparent,
         title: Text(
-          _isOTPSend ? 'Otp Verification' : 'Login with Phone number',
+          isOTPSent ? 'Otp Verification' : 'Login with Phone number',
           style: const TextStyle(color: Colors.black54),
         ),
       ),
@@ -170,18 +166,18 @@ class _PhoneAuthState extends State<PhoneAuth> {
             SizedBox(
               child: Column(
                 children: [
-                  _isOTPSend
+                  isOTPSent
                       ? EnterOtpSVG(screenHeight: screenHeight)
                       : InputPhoneNumberSVG(screenHeight: screenHeight),
                   gapLarge,
-                  _isOTPSend
+                  isOTPSent
                       ? const Text("Enter the OTP from your Phone.")
                       : const Text(
                           "Enter your mobile number to continue.",
                           style: TextStyle(fontSize: 15),
                         ),
                   gapMedium,
-                  _isOTPSend
+                  isOTPSent
                       ? OtpTextField(
                           fillColor: primaryColor1,
                           filled: true,
@@ -190,67 +186,43 @@ class _PhoneAuthState extends State<PhoneAuth> {
                           textStyle:
                               textStyleTheme.bodyLarge!.copyWith(fontSize: 15),
                           showFieldAsBox: true,
-                          decoration: InputDecoration(
-                            enabled: true,
-                            filled: true,
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 0, horizontal: 10),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(
-                                color: Colors.black,
-                                width: 2.0,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(
-                                color: Colors.black,
-                                width: 2.0,
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(
-                                color: Colors.black,
-                                width: 2.0,
-                              ),
-                            ),
-                          ),
-                          borderWidth: 2,
                           numberOfFields: 6,
                           borderColor: Colors.black,
                           focusedBorderColor: Colors.red,
                           showCursor: true,
                           fieldWidth: screenWidth * .0999,
                           fieldHeight: screenWidth * .0999,
-                          onCodeChanged: (String code) {},
                           onSubmit: (String code) {
-                            _verifyOTP(code);
+                            _verifyOTP(ref, code);
                           },
                         )
                       : InputPhoneNumber(
-                          phoneController: _phoneController,
-                          countryCode: _countryController,
+                          phoneController: phoneController,
+                          countryCode: countryCodeController,
                         ),
                 ],
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: _isLoading
+              child: isLoading
                   ? const CircularProgressIndicator()
-                  : _isOTPSend
+                  : isOTPSent
                       ? LoadingButtonV1(
                           onPressed: () {
-                            if (_verificationId != null) {
-                              _verifyOTP(_otpController.text);
+                            final otpController = TextEditingController();
+                            if (ref.read(verificationIdProvider) != null) {
+                              _verifyOTP(ref, otpController.text);
                             }
                           },
                           text: "Verify",
                         )
                       : LoadingButtonV1(
-                          onPressed: _sendOTP,
+                          onPressed: () => _sendOTP(
+                            ref,
+                            phoneController.text.trim(),
+                            countryCodeController.text.trim(),
+                          ),
                           text: 'Send OTP',
                         ),
             ),

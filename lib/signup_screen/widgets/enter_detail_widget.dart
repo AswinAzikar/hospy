@@ -8,19 +8,19 @@ class EnterDetailWidget extends StatelessWidget {
     required TextEditingController firstNameController,
     required TextEditingController secondNameController,
     required TextEditingController emailController,
-    required TextEditingController passwordController,
-    required  TextEditingController confirmPasswordController,
+    required TextEditingController nationalIDNameController,
+    required TextEditingController nationalIDNumberController,
   })  : _firstNameController = firstNameController,
         _secondNameController = secondNameController,
         _emailController = emailController,
-        _passwordController = passwordController,
-        _confirmPasswordController = confirmPasswordController;
+        _nationalIDNameController = nationalIDNameController,
+        _nationalIDNumberController = nationalIDNumberController;
 
   final TextEditingController _firstNameController;
   final TextEditingController _secondNameController;
   final TextEditingController _emailController;
-  final TextEditingController _passwordController;
-  final  TextEditingController _confirmPasswordController;
+  final TextEditingController _nationalIDNameController;
+  final TextEditingController _nationalIDNumberController;
 
   @override
   Widget build(BuildContext context) {
@@ -47,18 +47,18 @@ class EnterDetailWidget extends StatelessWidget {
         ),
         gapLarge,
         CustomTextFormField(
-          label: "Password",
-          hintText: "Set up a new password",
+          label: "National ID Type",
+          hintText: "Enter the name of your National ID",
           keyboardType: TextInputType.text,
-          fieldController: _passwordController,
+          fieldController: _nationalIDNameController,
           obscure: true,
         ),
         gapLarge,
         CustomTextFormField(
-          label: "Confirm Password",
-          hintText: "Confirm your password",
+          label: "National ID Number",
+          hintText: "Enter the National ID  number",
           keyboardType: TextInputType.text,
-          fieldController: _confirmPasswordController,
+          fieldController: _nationalIDNumberController,
           obscure: true,
         ),
       ],

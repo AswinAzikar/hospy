@@ -135,7 +135,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           isUserLoaded
                               ? Text(
-                                  _userModel!.name!,
+                                  _userModel!.email!,
                                   style: textStyleTheme.headlineSmall,
                                 )
                               : ShimWrapper(
