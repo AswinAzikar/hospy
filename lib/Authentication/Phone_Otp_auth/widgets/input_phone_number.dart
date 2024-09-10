@@ -1,22 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:intl_phone_number_field/intl_phone_number_field.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:hospy/providers/providers.dart';
+
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+
+import '../models/phone_number_model.dart';
 
 
-class InputPhoneNumber extends StatelessWidget {
+
+class InputPhoneNumber extends ConsumerStatefulWidget {
   const InputPhoneNumber({
-    super.key,
-    required TextEditingController phoneController,
-    required TextEditingController countryCode,
-  })  : _phoneController = phoneController,
-        _countryController = countryCode;
+    Key? key,
+    required this.phoneController,
+    required this.countryCodeController,
+  }) : super(key: key);
 
-  final TextEditingController _phoneController;
+  final TextEditingController phoneController;
+  final TextEditingController countryCodeController;
 
-  final TextEditingController _countryController;
+  @override
+  ConsumerState<InputPhoneNumber> createState() => _InputPhoneNumberState();
+}
+
+class _InputPhoneNumberState extends ConsumerState<InputPhoneNumber> {
+  PhoneNumber initialPhoneNumber = PhoneNumber(isoCode: 'IN');
+
+  @override
+  void initState() {
+    super.initState();
+    widget.countryCodeController.text = '+91'; 
+  }
 
   @override
   Widget build(BuildContext context) {
-    _countryController.text = "+91";
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
@@ -29,17 +46,33 @@ class InputPhoneNumber extends StatelessWidget {
           children: [
             Expanded(
               child: InternationalPhoneNumberInput(
-                onInputChanged: (number) {
-                  _countryController.text = number.dial_code;
+                onInputChanged: (PhoneNumber number) {
+                  final countryCode = number.dialCode ?? '+91';
+                  final phoneNumber = number.phoneNumber ?? '';
+
+                  ref.read(phoneNumberProvider.notifier).state =
+                      PhoneNumberModel(
+                          phoneNumber: phoneNumber, countryCode: countryCode);
                 },
-                controller: _phoneController,
-                initCountry: CountryCodeModel(
-                    name: "India", dial_code: "+91", code: "IN"),
+                initialValue: initialPhoneNumber,
+                selectorConfig: const SelectorConfig(
+                  selectorType: PhoneInputSelectorType.DROPDOWN,
+                ),
+                inputDecoration: const InputDecoration(
+                  border: InputBorder.none,
+                  labelText: 'Phone Number',
+                ),
+                textFieldController: widget.phoneController,
+                formatInput: true,
+                keyboardType: TextInputType.phone,
+                onSaved: (PhoneNumber number) {
+                  
+                },
                 validator: (value) {
-                  if (value.number.isEmpty) {
-                    return "The phone number must  not be empty";
+                  if (value == null || value.isEmpty) {
+                    return "The phone number must not be empty";
                   }
-                  if (value.number.length != 10) {
+                  if (value.length < 10 || value.length > 10) {
                     return "The phone number must be 10 digits.";
                   }
                   return null;

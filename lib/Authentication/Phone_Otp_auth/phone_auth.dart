@@ -44,7 +44,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
   }
 
   void _sendOTP() async {
-    String phoneNumber = _phoneController.text;
+    String phoneNumber = _phoneController.text.replaceAll(' ', '');
     String countryCode = _countryController.text;
 
     if (_isValidPhoneNumber(phoneNumber)) {
@@ -231,7 +231,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
                         )
                       : InputPhoneNumber(
                           phoneController: _phoneController,
-                          countryCode: _countryController,
+                          countryCodeController: _countryController,
                         ),
                 ],
               ),
