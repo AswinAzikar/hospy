@@ -5,10 +5,12 @@ part 'user_model.g.dart';
 class UserModel {
   String? name;
   String? email;
+  String? phoneNumber;
 
   UserModel({
     this.name,
     this.email,
+    this.phoneNumber
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

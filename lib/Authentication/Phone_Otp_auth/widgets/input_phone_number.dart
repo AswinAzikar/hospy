@@ -7,14 +7,12 @@ import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 import '../models/phone_number_model.dart';
 
-
-
 class InputPhoneNumber extends ConsumerStatefulWidget {
   const InputPhoneNumber({
-    Key? key,
+    super.key,
     required this.phoneController,
     required this.countryCodeController,
-  }) : super(key: key);
+  });
 
   final TextEditingController phoneController;
   final TextEditingController countryCodeController;
@@ -29,7 +27,7 @@ class _InputPhoneNumberState extends ConsumerState<InputPhoneNumber> {
   @override
   void initState() {
     super.initState();
-    widget.countryCodeController.text = '+91'; 
+    widget.countryCodeController.text = '+91';
   }
 
   @override
@@ -58,16 +56,17 @@ class _InputPhoneNumberState extends ConsumerState<InputPhoneNumber> {
                 selectorConfig: const SelectorConfig(
                   selectorType: PhoneInputSelectorType.DROPDOWN,
                 ),
-                inputDecoration: const InputDecoration(
+                inputDecoration: InputDecoration(
+                  hintText: "Phone number",
+       
+                  hintStyle: TextStyle(color: Colors.grey[300]),
                   border: InputBorder.none,
-                  labelText: 'Phone Number',
+                  //    labelText: 'Phone Number',
                 ),
                 textFieldController: widget.phoneController,
                 formatInput: true,
                 keyboardType: TextInputType.phone,
-                onSaved: (PhoneNumber number) {
-                  
-                },
+                onSaved: (PhoneNumber number) {},
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "The phone number must not be empty";

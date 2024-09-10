@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hospy/bottom_navigation/bottom_navbar.dart';
 import 'package:hospy/constants/color_const.dart';
 import 'package:hospy/constants/value_const.dart';
@@ -11,17 +12,18 @@ import 'package:hospy/signup_screen/widgets/enter_detail_widget.dart';
 import 'package:hospy/widgets/buttons.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../providers/providers.dart';
 import 'widgets/signup_text_widget.dart';
 
-class SignUpScreen extends StatefulWidget {
+class SignUpScreen extends ConsumerStatefulWidget {
   final PhoneAuthCredential phoneAuthCredential;
   const SignUpScreen({super.key, required this.phoneAuthCredential});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+_SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _secondNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -57,7 +59,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future<void> _saveDataToFireStore() async {
-    UserCredential userCredential = await _auth.signInWithCredential(widget.phoneAuthCredential);
+    UserCredential userCredential =
+        await _auth.signInWithCredential(widget.phoneAuthCredential);
     User? user = userCredential.user;
 
     FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -65,7 +68,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     // Create phoneAuthCredential new user document
     await userDocRef.set({
-      'name': "${_firstNameController.text} ${_secondNameController.text}" ,
+      'name': "${_firstNameController.text} ${_secondNameController.text}",
       'email': _emailController.text,
       // Add more fields as necessary
     });
@@ -128,6 +131,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final phoneNumber = ref.watch(phoneNumberProvider);
+
     TextTheme textStyleTheme = Theme.of(context).textTheme;
     double screenWidth = MediaQuery.of(context).size.width;
 
