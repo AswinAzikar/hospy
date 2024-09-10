@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hospy/bottom_navigation/bottom_navbar.dart';
 import 'package:hospy/greeting_screen/GreetingScreen.dart';
 import 'package:hospy/landing_screen/landing_screen.dart';
@@ -10,7 +11,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(
-    const MyApp(),
+    const ProviderScope(child: MyApp()),
   );
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarIconBrightness: Brightness.dark,

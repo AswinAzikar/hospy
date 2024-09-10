@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hospy/bottom_navigation/bottom_navbar.dart';
 import 'package:hospy/constants/color_const.dart';
 import 'package:hospy/constants/value_const.dart';
-import 'package:hospy/firebase/user_model.dart';
+
 import 'package:hospy/signup_screen/widgets/enter_detail_widget.dart';
 
 import 'package:hospy/widgets/buttons.dart';
@@ -20,7 +20,7 @@ class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key, required this.phoneAuthCredential});
 
   @override
-_SignUpScreenState createState() => _SignUpScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
 class _SignUpScreenState extends ConsumerState<SignUpScreen> {
@@ -59,19 +59,32 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   }
 
   Future<void> _saveDataToFireStore() async {
-    UserCredential userCredential =
-        await _auth.signInWithCredential(widget.phoneAuthCredential);
-    User? user = userCredential.user;
+    try {
+      // Sign in the user with the phoneAuthCredential
+      UserCredential userCredential =
+          await _auth.signInWithCredential(widget.phoneAuthCredential);
+      User? user = userCredential.user;
 
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    DocumentReference userDocRef = firestore.collection('users').doc(user!.uid);
+      // Check if user is not null
+      if (user != null) {
+        FirebaseFirestore firestore = FirebaseFirestore.instance;
+        DocumentReference userDocRef =
+            firestore.collection('users').doc(user.uid);
 
-    // Create phoneAuthCredential new user document
-    await userDocRef.set({
-      'name': "${_firstNameController.text} ${_secondNameController.text}",
-      'email': _emailController.text,
-      // Add more fields as necessary
-    });
+        // Save user data to Firestore
+        await userDocRef.set({
+          'name': "${_firstNameController.text} ${_secondNameController.text}",
+          'email': _emailController.text,
+          'phoneNumber': ref.watch(phoneNumberProvider).toString(),
+        });
+
+        logger.i("User data saved successfully");
+      } else {
+        logger.e("User is null");
+      }
+    } catch (e) {
+      logger.e("Error is $e");
+    }
   }
 
   void _validateTheFieldAndMoveToNextPage() {
@@ -131,8 +144,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final phoneNumber = ref.watch(phoneNumberProvider);
-
     TextTheme textStyleTheme = Theme.of(context).textTheme;
     double screenWidth = MediaQuery.of(context).size.width;
 
@@ -244,7 +255,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 LoadingButtonV1(
                   onPressed: _validateTheFieldAndMoveToNextPage,
                   text: "Continue",
-                )
+                ),
               ],
             ),
           ),

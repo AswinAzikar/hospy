@@ -1,11 +1,11 @@
 class PhoneNumberModel {
   final String phoneNumber;
-  final String countryCode;
+  // final String countryCode;
 
-  PhoneNumberModel({required this.phoneNumber, required this.countryCode});
+  PhoneNumberModel({required this.phoneNumber});
 
   String get formattedNumber =>
-      '$countryCode$phoneNumber'; // No space between country code and phone number
+      phoneNumber; // No space between country code and phone number
 
   @override
   String toString() => formattedNumber;

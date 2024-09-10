@@ -1,20 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:flutter_toggle_button/flutter_toggle_button.dart';
-import 'package:gap/gap.dart';
+
+
 import 'package:hospy/bottom_navigation/bottom_navbar.dart';
 import 'package:hospy/constants/color_const.dart';
 import 'package:hospy/constants/value_const.dart';
-import 'package:hospy/custom_appbar/custom_appbar.dart';
 import 'package:hospy/firebase/user_model.dart';
 import 'package:hospy/gen/assets.gen.dart';
 import 'package:hospy/widgets/shim_wrapper.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:shimmer/shimmer.dart';
+
 
 import '../widgets/common_container.dart';
 import 'widgets/profie_buttons.dart';
@@ -66,7 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 UserModel.fromJson(userDoc.data() as Map<String, dynamic>);
           });
         } else {
-          print("User document does not exist.");
+          logger.f("User document does not exist.");
         }
       } else {
         print("No user logged in.");

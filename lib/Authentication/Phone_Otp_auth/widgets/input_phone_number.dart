@@ -45,12 +45,11 @@ class _InputPhoneNumberState extends ConsumerState<InputPhoneNumber> {
             Expanded(
               child: InternationalPhoneNumberInput(
                 onInputChanged: (PhoneNumber number) {
-                  final countryCode = number.dialCode ?? '+91';
+                  //    final countryCode = number.dialCode ?? '+91';
                   final phoneNumber = number.phoneNumber ?? '';
 
                   ref.read(phoneNumberProvider.notifier).state =
-                      PhoneNumberModel(
-                          phoneNumber: phoneNumber, countryCode: countryCode);
+                      PhoneNumberModel(phoneNumber: phoneNumber);
                 },
                 initialValue: initialPhoneNumber,
                 selectorConfig: const SelectorConfig(
@@ -58,7 +57,7 @@ class _InputPhoneNumberState extends ConsumerState<InputPhoneNumber> {
                 ),
                 inputDecoration: InputDecoration(
                   hintText: "Phone number",
-       
+
                   hintStyle: TextStyle(color: Colors.grey[300]),
                   border: InputBorder.none,
                   //    labelText: 'Phone Number',
