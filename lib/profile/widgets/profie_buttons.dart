@@ -21,28 +21,31 @@ class ProfileButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onPressed,
-      child: CommonContainer(
-          child: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: Column(
               children: [
-                SvgPicture.asset(
-                  height: screenWidth * .1,
-                  iconPath,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SvgPicture.asset(
+                      height: screenWidth * .1,
+                      iconPath,
+                    ),
+                    Text(
+                      label,
+                      style: textStyleTheme.bodyLarge,
+                    ),
+                    const Icon(Icons.arrow_forward_ios)
+                  ],
                 ),
-                Text(
-                  label,
-                  style: textStyleTheme.bodyLarge,
-                ),
-                const Icon(Icons.arrow_forward_ios)
               ],
             ),
-          ],
-        ),
-      )),
+          ),
+        ],
+      ),
     );
   }
 }

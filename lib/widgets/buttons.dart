@@ -7,12 +7,17 @@ class LoadingButtonV1 extends StatefulWidget {
   final Icon? icon;
   final bool iconLeft;
 
+  final Color? splashColor;
+  final Color? backgroundColor;
+
   const LoadingButtonV1({
     super.key,
     required this.onPressed,
     required this.text,
     this.icon,
     this.iconLeft = true,
+    this.splashColor,
+    this.backgroundColor,
   });
 
   @override
@@ -53,14 +58,14 @@ class _LoadingButtonV1State extends State<LoadingButtonV1>
       child: ScaleTransition(
         scale: _animation,
         child: InkResponse(
-          splashColor: const Color(0xffef7878),
+          splashColor: widget.splashColor ?? const Color(0xffef7878),
           borderRadius: BorderRadius.circular(10),
           onTap: _handleTap,
           child: LayoutBuilder(
             builder: (context, constraints) {
               return Container(
                 decoration: BoxDecoration(
-                  color: buttonColor,
+                  color: widget.backgroundColor ?? buttonColor,
                   borderRadius: BorderRadius.circular(30),
                 ),
                 height: screenHeight * 0.06,
@@ -71,7 +76,7 @@ class _LoadingButtonV1State extends State<LoadingButtonV1>
                         widget.text,
                         style: const TextStyle(
                           color: Colors.white,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w700,
                           fontSize: 16,
                         ),
                       ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hospy/constants/color_const.dart';
-import 'package:hospy/constants/value_const.dart';
+
 import 'package:hospy/home_screen/home_screen.dart';
 import 'package:hospy/profile/profile_screen.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
@@ -17,14 +17,31 @@ class CustomBottomNavigationBar extends StatefulWidget {
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   int selectedIndex = 0;
   final PageController _pageController = PageController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: selectedIndex == 0 ? _buildDrawer() : null,
+      appBar: selectedIndex == 0
+          ? AppBar(
+              backgroundColor: bgColor1,
+              leading: Builder(
+                builder: (BuildContext context) {
+                  return IconButton(
+                    icon: const Icon(Icons.menu), // Custom icon
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                  );
+                },
+              ),
+            )
+          : null,
       body: PageView(
         controller: _pageController,
         onPageChanged: (index) {
           setState(() {
-            selectedIndex = widget.pageIndex ?? index;
+            selectedIndex = index;
           });
         },
         children: const <Widget>[HomeScreen(), ProfileScreen()],
@@ -62,6 +79,42 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             _pageController.jumpToPage(index);
           });
         },
+      ),
+    );
+  }
+
+  Widget _buildDrawer() {
+    return Drawer(
+      child: Column(
+        children: [
+          const DrawerHeader(
+            decoration: BoxDecoration(
+              color: primaryColor2,
+            ),
+            child: Text(
+              'Soon The profile Image will be displayed here .',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.person, color: buttonColor),
+            title: const Text('Profile'),
+            onTap: () {},
+          ),
+          ListTile(
+            leading: const Icon(Icons.group, color: buttonColor),
+            title: const Text('Members'),
+            onTap: () {},
+          ),
+          ListTile(
+            leading: const Icon(Icons.logout, color: buttonColor),
+            title: const Text('Logout'),
+            onTap: () {},
+          ),
+        ],
       ),
     );
   }

@@ -3,15 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-
 import 'package:hospy/bottom_navigation/bottom_navbar.dart';
 import 'package:hospy/constants/color_const.dart';
 import 'package:hospy/constants/value_const.dart';
 import 'package:hospy/firebase/user_model.dart';
 import 'package:hospy/gen/assets.gen.dart';
+import 'package:hospy/landing_screen/landing_screen.dart';
+import 'package:hospy/widgets/buttons.dart';
 import 'package:hospy/widgets/shim_wrapper.dart';
 import 'package:page_transition/page_transition.dart';
-
 
 import '../widgets/common_container.dart';
 import 'widgets/profie_buttons.dart';
@@ -37,7 +37,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       logger.w("you toggled members : $_isMembersToggled");
     });
-    //  return _isMembersToggled;
   }
 
   @override
@@ -116,7 +115,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CommonContainer(
-                  //  backgroundColor: primaryColor3,
                   child: Column(
                     children: [
                       CircleAvatar(
@@ -129,15 +127,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           isUserLoaded
-                              ? Text(
-                                  _userModel!.name!,
-                                  style: textStyleTheme.headlineSmall,
+                              ? Column(
+                                  children: [
+                                    Text(
+                                      _userModel!.name!,
+                                      style: textStyleTheme.headlineSmall,
+                                    ),
+                                    gapLarge,
+                                    Text(
+                                      _userModel!.phoneNumber!,
+                                      style: textStyleTheme.titleSmall,
+                                    )
+                                  ],
                                 )
-                              : ShimWrapper(
-                                  child: Text(
-                                    "USER NOT FOUND",
-                                    style: textStyleTheme.headlineSmall,
-                                  ),
+                              : Column(
+                                  children: [
+                                    ShimWrapper(
+                                      child: Text(
+                                        "USER NOT FOUND",
+                                        style: textStyleTheme.headlineSmall,
+                                      ),
+                                    ),
+                                    gapLarge,
+                                    ShimWrapper(
+                                      child: Text(
+                                        "mobile number not found",
+                                        style: textStyleTheme.titleSmall,
+                                      ),
+                                    ),
+                                  ],
                                 )
                         ],
                       ),
@@ -152,7 +170,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Column(
                     children: [
                       ProfileButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          logger.e("Memebers pressed");
+                        },
                         label: "Members",
                         screenWidth: screenWidth,
                         textStyleTheme: textStyleTheme,
@@ -165,9 +185,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         screenWidth: screenWidth,
                         textStyleTheme: textStyleTheme,
                         iconPath: Assets.svg.accountSettings,
-                      )
+                      ),
                     ],
                   ),
+                ),
+                gapIV,
+                LoadingButtonV1(
+                  onPressed: () {
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                          builder: (context) => const LandingScreen()),
+                      (Route<dynamic> route) => false,
+                    );
+                  },
+                  text: "Log out",
+                  splashColor: Colors.transparent,
+                  backgroundColor: const Color.fromARGB(255, 206, 28, 15),
                 )
               ],
             ),
