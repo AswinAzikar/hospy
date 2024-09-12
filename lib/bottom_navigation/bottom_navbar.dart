@@ -3,6 +3,7 @@ import 'package:hospy/constants/color_const.dart';
 
 import 'package:hospy/home_screen/home_screen.dart';
 import 'package:hospy/profile/profile_screen.dart';
+import 'package:mesh_gradient/mesh_gradient.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
@@ -15,8 +16,25 @@ class CustomBottomNavigationBar extends StatefulWidget {
 }
 
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
-  int selectedIndex = 0;
+  late int selectedIndex;
   final PageController _pageController = PageController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    selectedIndex = widget.pageIndex ?? 0;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _pageController.jumpToPage(selectedIndex);
+    });
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +46,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               leading: Builder(
                 builder: (BuildContext context) {
                   return IconButton(
-                    icon: const Icon(Icons.menu), // Custom icon
+                    icon: const Icon(Icons.menu),
                     onPressed: () {
                       Scaffold.of(context).openDrawer();
                     },
@@ -84,37 +102,37 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   }
 
   Widget _buildDrawer() {
-    return Drawer(
-      child: Column(
-        children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: primaryColor2,
-            ),
-            child: Text(
-              'Soon The profile Image will be displayed here .',
-              style: TextStyle(
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          topRight: Radius.circular(20),
+          bottomRight: Radius.circular(20),
+        ),
+        child: Stack(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width * 2.5 / 4,
+              decoration: const BoxDecoration(
                 color: Colors.white,
-                fontSize: 24,
+              ),
+              child: const Column(
+                children: [],
               ),
             ),
-          ),
-          ListTile(
-            leading: const Icon(Icons.person, color: buttonColor),
-            title: const Text('Profile'),
-            onTap: () {},
-          ),
-          ListTile(
-            leading: const Icon(Icons.group, color: buttonColor),
-            title: const Text('Members'),
-            onTap: () {},
-          ),
-          ListTile(
-            leading: const Icon(Icons.logout, color: buttonColor),
-            title: const Text('Logout'),
-            onTap: () {},
-          ),
-        ],
+            Positioned.fill(
+              child: AnimatedMeshGradient(
+                colors: [
+                  const Color.fromARGB(255, 204, 250, 238).withOpacity(.004),
+                  const Color.fromARGB(255, 189, 243, 215).withOpacity(.004),
+                  const Color.fromARGB(255, 240, 218, 241).withOpacity(.004),
+                  const Color.fromARGB(255, 202, 233, 245).withOpacity(.004),
+                ],
+                options: AnimatedMeshGradientOptions(frequency: 3),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
