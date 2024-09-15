@@ -88,8 +88,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onPressed: () {
               pushTo(
                 context: context,
-                toPage: const ProfileScreen(),
-                style: PageTransitionType.rightToLeft,
+                toPage: const CustomBottomNavigationBar(),
+                style: PageTransitionType.leftToRight,
               );
             },
             icon: const Icon(Icons.arrow_back)),

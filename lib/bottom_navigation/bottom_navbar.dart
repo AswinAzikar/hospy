@@ -3,6 +3,8 @@ import 'package:hospy/constants/color_const.dart';
 
 import 'package:hospy/home_screen/home_screen.dart';
 import 'package:hospy/profile/profile_screen.dart';
+import 'package:hugeicons/hugeicons.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:mesh_gradient/mesh_gradient.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
@@ -48,7 +50,9 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               leading: Builder(
                 builder: (BuildContext context) {
                   return IconButton(
-                    icon: const Icon(Icons.menu),
+                    icon: const HugeIcon(
+                        icon: HugeIcons.strokeRoundedSidebarLeft01,
+                        color: Colors.black),
                     onPressed: () {
                       Scaffold.of(context).openDrawer();
                     },
