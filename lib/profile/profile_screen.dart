@@ -187,7 +187,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   onPressed: () {
                     Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
-                          builder: (context) => const LandingScreen()),
+                        builder: (context) => const LandingScreen(),
+                      ),
                       (Route<dynamic> route) => false,
                     );
                   },

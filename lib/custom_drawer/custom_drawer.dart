@@ -3,17 +3,21 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:hospy/constants/color_const.dart';
 import 'package:hospy/constants/value_const.dart';
 import 'package:hospy/gen/assets.gen.dart';
 import 'package:hospy/profile/profile_screen.dart';
 import 'package:hospy/route_const/route_const.dart';
+import 'package:hospy/widgets/buttons.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:mesh_gradient/mesh_gradient.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../firebase/user_model.dart';
+import '../landing_screen/landing_screen.dart';
 import '../widgets/shim_wrapper.dart';
+import 'widgets/cutom_button_for_menu.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({
@@ -146,25 +150,34 @@ class _CustomDrawerState extends State<CustomDrawer> {
                           ],
                         ),
                         gapIV,
-                        InkWell(
-                          onTap: () {
-                            pushTo(
-                                context: context,
-                                toPage: const ProfileScreen(),
-                                style: PageTransitionType.rightToLeft);
+                        CustomButtonForMenu(
+                          textStyleTheme: textStyleTheme,
+                          title: 'Account Settings',
+                          leftIcon: Ionicons.person,
+                          rightIcon: Ionicons.chevron_forward,
+                          navigateTo: const ProfileScreen(),
+                        ),
+                        gapIV,
+                        CustomButtonForMenu(
+                            textStyleTheme: textStyleTheme,
+                            title: 'Add Members',
+                            leftIcon: Ionicons.people_sharp,
+                            rightIcon: Ionicons.chevron_forward,
+                            navigateTo: const ProfileScreen()),
+                        Gap(screenWidth),
+                        LoadingButtonV1(
+                          onPressed: () {
+                            Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                builder: (context) => const LandingScreen(),
+                              ),
+                              (Route<dynamic> route) => false,
+                            );
                           },
-                          enableFeedback: true,
-                          child: SizedBox(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Icon(Ionicons.person),
-                                Text("Account Settings",
-                                    style: textStyleTheme.bodyLarge),
-                                const Icon(Ionicons.arrow_forward_outline)
-                              ],
-                            ),
-                          ),
+                          text: "Log out",
+                          splashColor: Colors.transparent,
+                          backgroundColor:
+                              const Color.fromARGB(255, 206, 28, 15),
                         )
                       ],
                     ),
