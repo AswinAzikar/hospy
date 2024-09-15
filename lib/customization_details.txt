@@ -1,0 +1,44 @@
+packages used for customization : 
+    icons:
+      1. ionions ( from pubdev)
+      
+
+
+    ######################################################
+    
+Navigator is customized to :
+Navigation Function Documentation
+
+    Navigator.push() is customized to pushTo()
+    Description: Pushes a new page onto the navigation stack with a custom page transition style.
+
+    Navigator.pushNamed() is customized to pushNamed()
+    Description: Pushes a new route onto the navigation stack using a named route, with optional arguments.
+
+    Navigator.popAndPushNamed() is customized to popNamed()
+    Description: Pops the current route off the stack and pushes a new route onto the stack using a named route.
+
+    Navigator.pushReplacement() is customized to pushReplacement()
+    Description: Replaces the current route with a new route using a custom page transition style.
+
+    Navigator.pushReplacementNamed() is customized to pushReplacementNamed()
+    Description: Replaces the current route with a new route using a named route, with optional arguments.
+
+    Navigator.pushAndRemoveUntil() is customized to pushAndRemoveAll()
+    Description: Pushes a new route onto the stack and removes all previous routes, with a custom page transition style.
+
+    Navigator.pushAndRemoveUntil() (with named route) is customized to pushAndRemoveAllNamed()
+    Description: Pushes a new route (specified by a named route) onto the stack and removes all previous routes.
+
+    Navigator.maybePop() is customized to maybePop()
+    Description: Conditionally pops the current route off the stack, allowing for an optional result.
+
+    Navigator.pushNamedAndRemoveUntil() is customized to pushNamedAndRemoveUntil()
+    Description: Pushes a new named route onto the stack and removes routes until a specified condition is met.
+
+    Navigator.pushNamedAndRemoveUntil() (with named route) is customized to pushNamedAndRemoveUntilNamed()
+    Description: Pushes a new named route onto the stack and removes routes until a specific route name is reached.
+
+
+
+    ######################################################

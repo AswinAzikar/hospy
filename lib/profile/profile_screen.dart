@@ -9,6 +9,7 @@ import 'package:hospy/constants/value_const.dart';
 import 'package:hospy/firebase/user_model.dart';
 import 'package:hospy/gen/assets.gen.dart';
 import 'package:hospy/landing_screen/landing_screen.dart';
+import 'package:hospy/route_const/route_const.dart';
 import 'package:hospy/widgets/buttons.dart';
 import 'package:hospy/widgets/shim_wrapper.dart';
 import 'package:page_transition/page_transition.dart';
@@ -27,17 +28,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   UserModel? _userModel;
   bool _isLoading = true;
 
-  bool _isMembersToggled = false;
+  final bool _isMembersToggled = false;
 
   final List profileList = const ['User', 'Members'];
-
-  void _toggleButtonPressed() {
-    setState(() {
-      _isMembersToggled = !_isMembersToggled;
-
-      logger.w("you toggled members : $_isMembersToggled");
-    });
-  }
 
   @override
   void initState() {
@@ -92,13 +85,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           "Profile",
         ),
         leading: IconButton(
-            onPressed: () => Navigator.push(
-                  context,
-                  PageTransition(
-                    child: const CustomBottomNavigationBar(),
-                    type: PageTransitionType.theme,
-                  ),
-                ),
+            onPressed: () {
+              pushTo(
+                context: context,
+                toPage: const ProfileScreen(),
+                style: PageTransitionType.rightToLeft,
+              );
+            },
             icon: const Icon(Icons.arrow_back)),
         backgroundColor: Colors.transparent,
         systemOverlayStyle: SystemUiOverlayStyle(

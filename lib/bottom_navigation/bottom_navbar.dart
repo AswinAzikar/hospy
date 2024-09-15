@@ -6,6 +6,8 @@ import 'package:hospy/profile/profile_screen.dart';
 import 'package:mesh_gradient/mesh_gradient.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 
+import '../custom_drawer/custom_drawer.dart';
+
 class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar({super.key, this.pageIndex});
   final int? pageIndex;
@@ -39,7 +41,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: selectedIndex == 0 ? _buildDrawer() : null,
+      drawer: selectedIndex == 0 ? CustomDrawer(context: context) : null,
       appBar: selectedIndex == 0
           ? AppBar(
               backgroundColor: bgColor1,
@@ -65,6 +67,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         children: const <Widget>[HomeScreen(), ProfileScreen()],
       ),
       bottomNavigationBar: StylishBottomBar(
+        gradient: LinearGradient(colors: multiGradientColorList),
         borderRadius: const BorderRadius.all(Radius.circular(20)),
         elevation: 20,
         notchStyle: NotchStyle.themeDefault,
@@ -97,42 +100,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             _pageController.jumpToPage(index);
           });
         },
-      ),
-    );
-  }
-
-  Widget _buildDrawer() {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: ClipRRect(
-        borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(20),
-          bottomRight: Radius.circular(20),
-        ),
-        child: Stack(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 2.5 / 4,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-              ),
-              child: const Column(
-                children: [],
-              ),
-            ),
-            Positioned.fill(
-              child: AnimatedMeshGradient(
-                colors: [
-                  const Color.fromARGB(255, 204, 250, 238).withOpacity(.004),
-                  const Color.fromARGB(255, 189, 243, 215).withOpacity(.004),
-                  const Color.fromARGB(255, 240, 218, 241).withOpacity(.004),
-                  const Color.fromARGB(255, 202, 233, 245).withOpacity(.004),
-                ],
-                options: AnimatedMeshGradientOptions(frequency: 3),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
