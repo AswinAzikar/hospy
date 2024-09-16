@@ -54,6 +54,7 @@ flutter:
     - assets/png/ 
     - assets/svg/
     - assets/jpg/
+    - assets/family_members.json
   
   fonts:
     - family: SFProDisplay

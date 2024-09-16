@@ -70,9 +70,13 @@ class $AssetsSvgGen {
 class Assets {
   Assets._();
 
+  static const String familyMembers = 'assets/family_members.json';
   static const $AssetsJpgGen jpg = $AssetsJpgGen();
   static const $AssetsPngGen png = $AssetsPngGen();
   static const $AssetsSvgGen svg = $AssetsSvgGen();
+
+  /// List of all assets
+  static List<String> get values => [familyMembers];
 }
 
 class AssetGenImage {

@@ -9,10 +9,10 @@ part of 'members_data_model.dart';
 FamilyMember _$FamilyMemberFromJson(Map<String, dynamic> json) => FamilyMember(
       id: json['id'] as String,
       name: json['name'] as String,
-      age: (json['age'] as num).toInt(),
+      age: json['age'] as String,
       relation: json['relation'] as String,
-      adhaarNo: json['adhaarNo'] as String,
-      phoneNumber: json['phoneNumber'] as String,
+      adhaarNo: json['adhaar no'] as String?,
+      phoneNumber: json['phone number'] as String?,
     );
 
 Map<String, dynamic> _$FamilyMemberToJson(FamilyMember instance) =>
@@ -21,6 +21,6 @@ Map<String, dynamic> _$FamilyMemberToJson(FamilyMember instance) =>
       'name': instance.name,
       'age': instance.age,
       'relation': instance.relation,
-      'adhaarNo': instance.adhaarNo,
-      'phoneNumber': instance.phoneNumber,
+      'adhaar no': instance.adhaarNo,
+      'phone number': instance.phoneNumber,
     };

@@ -12,7 +12,7 @@ const primaryColor3 = Color(0xffecfff6);
 const LinearGradient primaryGradience = LinearGradient(
   begin: Alignment.bottomCenter,
   end: Alignment.topCenter,
-  colors: [primaryColor2, primaryColor1],
+  colors: [Color.fromARGB(255, 236, 95, 95), primaryColor1],
 );
 
 List<BoxShadow> commonShadow = [
