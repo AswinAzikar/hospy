@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:hospy/add_or_remove_members/add_or_remove_member_screen.dart';
+import 'package:hospy/family_members/family_member_screen.dart';
 import 'package:hospy/constants/color_const.dart';
 import 'package:hospy/constants/value_const.dart';
 import 'package:hospy/gen/assets.gen.dart';
@@ -164,7 +164,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                             title: 'Members',
                             leftIcon: Ionicons.people_sharp,
                             rightIcon: Ionicons.chevron_forward,
-                            navigateTo: const AddOrRemoveMemberScreen()),
+                            navigateTo: const FamilyMembersScreen()),
                         Gap(screenWidth),
                         LoadingButtonV1(
                           onPressed: () {
