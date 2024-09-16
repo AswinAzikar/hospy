@@ -1,0 +1,22 @@
+{
+  "family_members": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "age": 45,
+      "relation": "Father",
+        "adhaar no":  "123409789012",
+        "phone number": "+919887766432"
+        
+    },
+    {
+      "id": 2,
+      "name": "Jane Doe",
+      "age": 42,
+      "relation": "Mother",
+      "adhaar no":  "123456789012",
+       "phone number": "+919897706432"
+
+    }
+  ]
+}
